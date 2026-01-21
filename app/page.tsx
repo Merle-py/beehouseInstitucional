@@ -530,7 +530,7 @@ export default function HomePage() {
             {/* Final CTA Section */}
             <section id="contato" className="py-12 md:py-20 bg-bee-black text-white">
                 <div className="container mx-auto px-4 md:px-8 lg:px-16 max-w-5xl">
-                    <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div className="grid lg:grid-cols-2 gap-2 md:gap-12 items-center">
                         {/* Left Content */}
                         <div className="text-center lg:text-left">
                             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4 md:mb-6 leading-tight">
