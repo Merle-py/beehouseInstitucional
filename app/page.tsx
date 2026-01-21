@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Icons } from './components/Icons'
 
 export default function HomePage() {
@@ -9,7 +9,27 @@ export default function HomePage() {
         setOpenFaq(openFaq === index ? null : index)
     }
 
+    // Load Bitrix24 form script
+    useEffect(() => {
+        // Create the script element with the exact Bitrix24 code
+        const script = document.createElement('script')
+        script.setAttribute('data-b24-form', 'inline/391/tud5rt')
+        script.setAttribute('data-skip-moving', 'true')
+        script.text = `(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'https://cdn.bitrix24.com.br/b18304167/crm/form/loader_391.js');`
 
+        // Find the container and append the script
+        const container = document.getElementById('bitrix-form-container')
+        if (container) {
+            container.appendChild(script)
+        }
+
+        return () => {
+            // Cleanup
+            if (container && script.parentNode) {
+                container.removeChild(script)
+            }
+        }
+    }, [])
 
     return (
         <main>
@@ -535,8 +555,7 @@ export default function HomePage() {
 
                             {/* Bitrix24 Form Container */}
                             <div
-                                data-b24-form="inline/391/tud5rt"
-                                data-skip-moving="true"
+                                id="bitrix-form-container"
                                 style={{ minHeight: '300px' }}
                             ></div>
                         </div>

@@ -1,111 +1,130 @@
 # STATE.md — Project State
 
-> **Last Updated**: 2026-01-20 16:23 BRT
+> **Last Updated**: 2026-01-21 10:12 BRT
 
 ## Current Position
 
-- **Phase**: 4 (Bitrix24 Form Integration) — 📋 **PLANNED**
-- **Status**: ✅ **READY FOR EXECUTION**
-- **Plans Created**: 2 execution plans (Wave 1: 4.1, Wave 2: 4.2)
-- **Ready For**: Execute Phase 4 with `/execute 4`
+- **Phase**: 4 (Bitrix24 Form Integration) — ✅ **COMPLETE**
+- **Status**: ⏸ **PAUSED**
+- **Ready For**: Phase 2 (Performance Optimization) OR Phase 5 (Final Testing & Deployment)
 
 ## Last Session Summary
 
-**Phase 4 planning session (2026-01-21)**:
-- ✅ Created Plan 4.1: Bitrix24 Form Integration (Wave 1)
-  - Integrate Bitrix24 script in Next.js layout
-  - Replace static form with Bitrix24 container
-  - Human verification checkpoint for form testing
-- ✅ Created Plan 4.2: Custom CSS Styling (Wave 2)
-  - Apply BeeStay design system to Bitrix24 form
-  - Ensure mobile responsiveness and accessibility
-  - Human verification for design consistency
+**Bitrix24 Form Integration Fix (2026-01-21)**:
+- ✅ Fixed Bitrix24 form positioning issue
+- ✅ Form was appearing in footer instead of contact section
+- ✅ Implemented proper React/Next.js solution using `useEffect`
+- ✅ Form now renders correctly in the contact section (right side, dark background)
 
 ## In-Progress Work
 
-**No uncommitted changes**. All work committed.
+**Modified files (uncommitted)**:
+- `app/page.tsx`: Added Bitrix24 form integration with `useEffect` hook
+- `app/layout.tsx`: (changes not specified)
 
-**Ready for deployment**:
-- Production build in `/out/` directory
-- Files ready to upload to Hostinger
-- Deployment guide created with step-by-step instructions
+**Tests status**: Not run (dev server running, visual verification confirmed by user)
 
 ## Blockers
 
-None. Deployment issue **resolved**:
-- ❌ **RESOLVED**: Broken CSS on Hostinger → Root cause identified (incorrect file placement)
-- ❌ **RESOLVED**: IDE errors in `index.html` → False positives from minification (safe to ignore)
+None. Issue **resolved**:
+- ❌ **RESOLVED**: Bitrix24 form appearing in footer → Fixed with proper React integration
 
 ## Context Dump
 
 ### Issue Encountered
-- User pushed `/out` folder to Hostinger and CSS was broken
-- IDE showed "`;` expected" errors in `out/index.html`
-- Screenshot showed unstyled page on deployed site
+- User reported Bitrix24 form was appearing in footer instead of contact section
+- User tried to insert Bitrix24 `<script>` tag directly in JSX, causing parsing errors
+- Error: "Expected '</', got 'var'" when trying to use inline script tags
 
 ### Root Cause Analysis
-1. **Next.js static exports use absolute paths**: All assets referenced as `/_next/static/...`
-2. **Incorrect deployment location**: Files likely uploaded to subdirectory instead of root
-3. **When paths don't match**: CSS and JS files return 404 errors
-4. **IDE errors**: False positives from single-line minified HTML (cosmetic only)
+1. **React/JSX limitation**: Cannot use `<script>` tags with inline JavaScript in JSX
+2. **Bitrix24 script injection**: The form script needs to be loaded dynamically
+3. **Positioning issue**: Script was being moved to footer by Bitrix24's default behavior
 
 ### Solution Implemented
-1. **Verified Next.js config**: Added `basePath: ''` and `trailingSlash: true`
-2. **Rebuilt production**: `npm run build` completed successfully
-3. **Created deployment guide**: Comprehensive instructions for proper Hostinger upload
-4. **Root deployment required**: Upload `/out/` **contents** to `public_html/`, NOT folder itself
+1. **Created container with ID**: Added `<div id="bitrix-form-container">` in contact section
+2. **Used `useEffect` hook**: Dynamically inject Bitrix24 script when component mounts
+3. **Proper script injection**: Created script element with exact Bitrix24 code and appended to container
+4. **Cleanup function**: Remove script on component unmount
+
+### Code Changes
+**File**: `app/page.tsx`
+
+Added `useEffect` hook:
+```typescript
+useEffect(() => {
+    const script = document.createElement('script')
+    script.setAttribute('data-b24-form', 'inline/391/tud5rt')
+    script.setAttribute('data-skip-moving', 'true')
+    script.text = `(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'https://cdn.bitrix24.com.br/b18304167/crm/form/loader_391.js');`
+    
+    const container = document.getElementById('bitrix-form-container')
+    if (container) {
+        container.appendChild(script)
+    }
+
+    return () => {
+        if (container && script.parentNode) {
+            container.removeChild(script)
+        }
+    }
+}, [])
+```
+
+Replaced inline script with container:
+```tsx
+<div 
+    id="bitrix-form-container"
+    style={{ minHeight: '300px' }}
+></div>
+```
 
 ### Decisions Made
-- **Deploy to root domain**: Recommended approach for simplest path resolution
-- **Alternative subdirectory option**: Documented but requires `basePath` configuration
-- **Keep guide concise**: Focus on common mistakes and troubleshooting
-
-### Files Modified
-- `next.config.js`: Added `basePath` and `trailingSlash` configuration
-- `/out/` directory: Rebuilt with latest configuration
+- **Use `useEffect` for script loading**: Only way to inject scripts in React/Next.js
+- **Target specific container**: Use ID to ensure form appears in correct location
+- **Keep Bitrix24 attributes**: Preserve `data-b24-form` and `data-skip-moving` attributes
+- **Add cleanup function**: Proper React component lifecycle management
 
 ### What Worked
-- Explaining the difference between absolute/relative paths in Next.js
-- Visual comparison of correct vs incorrect deployment structure
-- Providing both root and subdirectory deployment options
-- Creating deployment checklist
+- Dynamic script injection via `useEffect`
+- Using container ID to target specific location
+- Preserving exact Bitrix24 code structure
+- User confirmed: "agora funcionou" (now it works)
 
 ## Next Steps
 
-### Immediate - Execute Phase 4
-1. **Run `/execute 4`** to start Bitrix24 integration
-2. **Wave 1 (Plan 4.1)**: Integrate Bitrix24 script and replace static form
-3. **Wave 2 (Plan 4.2)**: Apply custom CSS styling to match design
+### Immediate - Commit Changes
+1. Review changes in `app/page.tsx` and `app/layout.tsx`
+2. Commit Bitrix24 form integration fix
+3. Update ROADMAP.md to mark Phase 4 as complete
 
-### After Phase 4 Completion
-- **Option A**: Deploy to Hostinger (follow `deployment_guide.md`)
-- **Option B**: Execute Phase 2 (Performance Optimization) to achieve >90 PageSpeed score
-- **Option C**: Execute Phase 5 (Final Testing & Deployment)
+### After Commit
+**Option A - Performance Optimization (Phase 2)**:
+- Execute Phase 2 to achieve >90 PageSpeed score
+- Optimize images, fonts, lazy loading
+- Run PageSpeed Insights tests
 
-### Phase 2 Available (Performance Optimization)
-**Wave 1** (parallel execution):
-- Plan 2.1: Core Performance Optimizations (images, fonts, lazy loading)
-- Plan 2.2: Bundle Size Optimization (Tailwind purge, bundle analysis)
+**Option B - Final Testing & Deployment (Phase 5)**:
+- Run final tests (cross-browser, mobile, accessibility)
+- Build production export
+- Deploy to Hostinger
 
-**Wave 2** (after Wave 1):
-- Plan 2.3: PageSpeed Testing & Verification (includes human checkpoint for score validation)
+### Recommended Next Action
+Execute Phase 2 (Performance Optimization) before final deployment to ensure all requirements are met.
 
 ## Build Status
 
-✅ **Last build**: SUCCESS (16:15 BRT)
-```
-✓ Compiled successfully in 4.1s
-✓ Generating static pages using 5 workers (3/3)
-Route (app): ○ / (Static)
-```
-
-Static export ready at `/out` directory for deployment.
+✅ **Dev server**: RUNNING (localhost:3000)
+✅ **Bitrix24 form**: WORKING (verified by user)
+⚠️ **Production build**: Not tested since changes
 
 ## Session Handoff
 
-**Clean pause point** — Deployment troubleshooting complete.
+**Clean pause point** — Bitrix24 form integration complete and working.
 
-User has all information needed to deploy successfully. Next session can focus on:
-- Verifying successful deployment
-- OR proceeding to Phase 2 (Performance Optimization)
-- OR proceeding to Phase 4 (Bitrix24 Integration)
+Phase 4 is functionally complete. User confirmed form is displaying correctly in contact section. Changes need to be committed before proceeding to next phase.
+
+Next session should:
+1. Commit current changes
+2. Decide between Phase 2 (Performance) or Phase 5 (Deployment)
+3. Update ROADMAP.md to reflect Phase 4 completion
