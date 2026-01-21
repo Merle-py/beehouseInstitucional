@@ -71,15 +71,16 @@
 ---
 
 ### Phase 4: Bitrix24 Form Integration
-**Status**: ⬜ Not Started
+**Status**: 📋 **PLANNED** (Ready for execution)
 **Objective**: Replace static contact form with Bitrix24 embed and apply custom CSS styling
 **Duration**: 2-3 hours
 **Requirements**: Phase 1 complete, Bitrix24 form embed code available
+**Plans**: 2 execution plans created (Wave 1: 4.1, Wave 2: 4.2)
 
 **Tasks**:
-- Get Bitrix24 form embed code from client
-- Integrate Bitrix24 form in CTA section
-- Apply custom CSS to match BeeStay design (bee-gold, rounded corners, etc.)
+- ✅ Get Bitrix24 form embed code from client (available in `.gsd/bitrix24-form.txt`)
+- Integrate Bitrix24 form in CTA section (Plan 4.1)
+- Apply custom CSS to match BeeStay design (bee-gold, rounded corners, etc.) (Plan 4.2)
 - Test form submission flow
 - Ensure mobile responsiveness
 - Verify form tracking in Bitrix24
