@@ -225,6 +225,11 @@
     padding: 0 !important;
 }
 
+/* Hide Bitrix24 signature/branding */
+.b24-form-sign {
+    display: none !important;
+}
+
 /* Input Fields */
 .b24-form input[type="text"],
 .b24-form input[type="email"],

@@ -540,7 +540,7 @@ export default function HomePage() {
                             <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-6 md:mb-8">
                                 Descubra o potencial real do seu imóvel em uma consultoria personalizada de 30 minutos. <strong className="text-white">Sem compromisso, apenas dados reais.</strong>
                             </p>
-                            <a href="#form" className="hidden lg:inline-flex items-center gap-2 bg-white text-bee-black px-6 md:px-8 py-3 md:py-4 rounded-lg font-bold hover:bg-gray-100 transition-all text-sm md:text-base">
+                            <a href="#contato" className="hidden lg:inline-flex items-center gap-2 bg-white text-bee-black px-6 md:px-8 py-3 md:py-4 rounded-lg font-bold hover:bg-gray-100 transition-all text-sm md:text-base">
                                 Começar Agora
                                 <Icons.ArrowRight className="w-5 h-5" />
                             </a>
@@ -548,10 +548,7 @@ export default function HomePage() {
 
                         {/* Right Form */}
                         <div id="form" className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl md:rounded-2xl p-6 md:p-8">
-                            <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">Não perca o ano atual!</h3>
-                            <p className="text-gray-400 mb-4 md:mb-6 text-sm md:text-base">
-                                Preencha o formulário e receba uma análise gratuita do potencial do seu imóvel
-                            </p>
+
 
                             {/* Bitrix24 Form Container */}
                             <div
