@@ -1,11 +1,33 @@
 @import "tailwindcss";
 
 @theme {
+    /* Paleta BeeStay - Simples e Direta */
+    --color-bee-black: #0a0a0a;
     --color-bee-gold: #f9b410;
     --color-bee-gold-dark: #d99a0d;
-    --color-bee-black: #0a0a0a;
+
+    /* Neutros Simples */
+    --color-off-white: #fafafa;
+    --color-light-gray: #f5f5f5;
+    --color-mid-gray: #e0e0e0;
+    --color-text-gray: #333333;
+    --color-text-light: #666666;
+
+    /* Backgrounds */
+    --color-bg-cream: #fafafa;
+    --color-bg-light: #ffffff;
+
+    /* Compatibilidade */
+    --color-charcoal-deep: #0a0a0a;
+    --color-slate-dark: #1a1a1a;
+    --color-warm-gray: #666666;
+    --color-amber-gold: #f9b410;
+    --color-bronze-accent: #d99a0d;
+    --color-subtle-honey: #fafafa;
 
     --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+    --font-family-sans: var(--font-sans);
 }
 
 /* Custom Styles from index.html - Migrated to standard CSS */
@@ -355,4 +377,23 @@
         padding: 1rem 1.5rem !important;
         font-size: 1rem !important;
     }
+}
+
+/* Services Carousel */
+.services-carousel {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.services-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+/* Prevent text selection during drag */
+.cursor-grabbing * {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
