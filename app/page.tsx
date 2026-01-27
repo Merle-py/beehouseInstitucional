@@ -815,21 +815,10 @@ export default function HomePage() {
                                 alt="Interior de alto padrão" 
                             />
                             <div className="absolute inset-0 bg-gradient-to-r from-bee-black/50 to-transparent lg:bg-gradient-to-t lg:from-bee-black/20"></div>
-                            
-                            {/* Success Badge (Anchored safely) */}
-                            <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 bg-white/95 backdrop-blur shadow-xl p-4 rounded-xl flex items-center gap-4 max-w-[260px]">
-                                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center shrink-0">
-                                    <Icons.TrendUp className="w-6 h-6 text-green-600" />
-                                </div>
-                                <div>
-                                    <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Performance</p>
-                                    <p className="text-bee-black font-bold text-lg">+40% Receita</p>
-                                </div>
-                            </div>
                         </div>
 
                         {/* Right - Content Side */}
-                        <div className="p-8 md:p-12 lg:p-20 flex flex-col justify-center">
+                        <div className="p-8 md:p-12 lg:p-20 flex flex-col justify-center relative z-10">
                             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white">
                                 Seu imóvel rendendo <span className="text-bee-gold">muito mais</span>, com zero esforço.
                             </h2>
@@ -849,7 +838,7 @@ export default function HomePage() {
                                 </a>
                                 <div className="text-sm text-gray-400">
                                     <span className="block text-bee-gold font-bold">Análise Gratuita</span>
-                                    sem compromisso
+                                    
                                 </div>
                             </div>
 
