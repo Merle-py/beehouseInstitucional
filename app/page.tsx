@@ -1,15 +1,34 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import useEmblaCarousel from 'embla-carousel-react'
+import AutoScroll from 'embla-carousel-auto-scroll'
 import { Icons } from './components/Icons'
 
 export default function HomePage() {
     const [openFaq, setOpenFaq] = useState<number | null>(null)
     const [currentSlide, setCurrentSlide] = useState(0)
     const [currentServiceIndex, setCurrentServiceIndex] = useState(0)
-    const [isDragging, setIsDragging] = useState(false)
-    const [startX, setStartX] = useState(0)
-    const [scrollLeft, setScrollLeft] = useState(0)
-    const carouselRef = useRef<HTMLDivElement>(null)
+    const [currentDiferenciaisIndex, setCurrentDiferenciaisIndex] = useState(0)
+    
+    // Embla Carousel for Logos
+    const [emblaRef] = useEmblaCarousel({ loop: true, watchDrag: false }, [
+        AutoScroll({ playOnInit: true, stopOnInteraction: false, speed: 0.5 })
+    ])
+
+    // Embla Carousel for Services
+    const [servicesRef, servicesApi] = useEmblaCarousel({ loop: true, align: 'start', slidesToScroll: 1 })
+
+    // Embla Carousel for Diferenciais
+    const [diferenciaisRef, diferenciaisApi] = useEmblaCarousel({ loop: true, align: 'start', slidesToScroll: 1 })
+
+    const logos = [
+        { src: '/Airbnb.svg', alt: 'Airbnb' },
+        { src: '/Booking.svg', alt: 'Booking' },
+        { src: '/Decolar.svg', alt: 'Decolar' },
+        { src: '/Expedia.svg', alt: 'Expedia' },
+    ]
+    // Repeat logos to ensure smooth infinite loop on all screen sizes
+    const repeatedLogos = [...logos, ...logos, ...logos, ...logos]
 
     const toggleFaq = (index: number) => {
         setOpenFaq(openFaq === index ? null : index)
@@ -17,9 +36,9 @@ export default function HomePage() {
 
     // Hero slideshow images
     const heroImages = [
-        '/hero-1.jpg', // Adicione suas imagens aqui
-        '/hero-2.jpg',
-        '/hero-3.jpg',
+        '/hero-1.webp', // Adicione suas imagens aqui
+        '/hero-2.webp',
+        '/hero-1.webp',
     ]
 
     // Services carousel data
@@ -27,77 +46,123 @@ export default function HomePage() {
         {
             icon: 'BroomOutline',
             title: 'Limpeza Profissional',
-            description: 'Protocolos de hotelaria após cada hóspede. Equipe treinada, produtos premium e vistoria fotográfica completa.'
+            description: 'Padrão hoteleiro com vistoria fotográfica a cada troca de hóspede.'
         },
         {
             icon: 'ToolOutline',
             title: 'Manutenção Preventiva',
-            description: 'Vistoria técnica regular e reparos imediatos. Preservamos o valor do seu ativo com cuidado artesanal.'
+            description: 'Inspeções regulares e reparos rápidos. Seu ativo sempre valorizado.'
         },
         {
             icon: 'EyeOutline',
             title: 'Vistoria Criteriosa',
-            description: 'Check-in e check-out com registro fotográfico detalhado. Monitoramento contínuo do estado da propriedade.'
+            description: 'Registro fotográfico detalhado na entrada e saída de cada reserva.'
         },
         {
             icon: 'GraphOutline',
             title: 'Precificação Inteligente',
-            description: 'Algoritmo adapta tarifas ao mercado em tempo real. Maximize ocupação e rentabilidade simultaneamente.'
+            description: 'Tarifas dinâmicas para máxima ocupação e lucro em tempo real.'
         },
     ]
+
+    // Diferenciais carousel data
+    const diferenciaisData = [
+        {
+            title: 'Transparência Total',
+            description: 'Receita e reservas em tempo real no seu dashboard. Sem letras miúdas.',
+            icon: 'Cpu', // Using Cpu as placeholder match
+            imageAlt: 'Dashboard em laptop'
+        },
+        {
+            title: 'Tecnologia de Ponta',
+            description: 'Automação completa do check-in ao checkout. Menos preocupações para você.',
+            icon: 'Cpu',
+            imageAlt: 'Pessoa verificando imóvel'
+        },
+        {
+            title: 'Cuidado Artesanal',
+            description: 'Gestor dedicado e atendimento humano. Seu imóvel é único para nós.',
+            icon: 'Star',
+            imageAlt: 'Detalhe de limpeza premium'
+        }
+    ]
+
+    const heroImageRefs = useRef<(HTMLDivElement | null)[]>([])
 
     // Hero slideshow effect
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % heroImages.length)
-        }, 5000) // Change slide every 5 seconds
+        }, 5500) // Change slide every 5.5 seconds
 
         return () => clearInterval(interval)
     }, [heroImages.length])
 
-    // Services carousel navigation
-    const nextService = () => {
-        setCurrentServiceIndex((prev) => (prev + 1) % services.length)
-    }
-
-    const prevService = () => {
-        setCurrentServiceIndex((prev) => (prev - 1 + services.length) % services.length)
-    }
-
-    const getVisibleServices = () => {
-        const visible = []
-        for (let i = 0; i < 2; i++) {
-            visible.push(services[(currentServiceIndex + i) % services.length])
-        }
-        return visible
-    }
-
-    // Drag handlers for carousel
-    const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-        setIsDragging(true)
-        const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX
-        setStartX(pageX)
-    }
-
-    const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
-        if (!isDragging) return
-        e.preventDefault()
-        const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX
-        const walk = (startX - pageX) * 2
-
-        if (Math.abs(walk) > 50) {
-            if (walk > 0) {
-                nextService()
-            } else {
-                prevService()
+    // Control zoom animation to play only for active slide
+    useEffect(() => {
+        heroImageRefs.current.forEach((ref, index) => {
+            if (ref) {
+                if (index === currentSlide) {
+                    // Reset and start animation for active slide
+                    ref.style.animation = 'none'
+                    void ref.offsetWidth // Force reflow
+                    ref.style.animation = 'zoomIn 5.5s ease-out forwards'
+                }
             }
-            setIsDragging(false)
-        }
-    }
+        })
+    }, [currentSlide])
 
-    const handleDragEnd = () => {
-        setIsDragging(false)
-    }
+    // Update current service index when embla slides change
+    const onSelect = useCallback(() => {
+        if (!servicesApi) return
+        setCurrentServiceIndex(servicesApi.selectedScrollSnap())
+    }, [servicesApi])
+
+    useEffect(() => {
+        if (!servicesApi) return
+        onSelect()
+        servicesApi.on('select', onSelect)
+        servicesApi.on('reInit', onSelect)
+    }, [servicesApi, onSelect])
+
+    // Update current diferenciais index when embla slides change
+    const onSelectDiferenciais = useCallback(() => {
+        if (!diferenciaisApi) return
+        setCurrentDiferenciaisIndex(diferenciaisApi.selectedScrollSnap())
+    }, [diferenciaisApi])
+
+    useEffect(() => {
+        if (!diferenciaisApi) return
+        onSelectDiferenciais()
+        diferenciaisApi.on('select', onSelectDiferenciais)
+        diferenciaisApi.on('reInit', onSelectDiferenciais)
+    }, [diferenciaisApi, onSelectDiferenciais])
+
+    // Services carousel navigation
+    const scrollPrev = useCallback(() => {
+        if (servicesApi) servicesApi.scrollPrev()
+    }, [servicesApi])
+
+    const scrollNext = useCallback(() => {
+        if (servicesApi) servicesApi.scrollNext()
+    }, [servicesApi])
+
+    const scrollTo = useCallback((index: number) => {
+        if (servicesApi) servicesApi.scrollTo(index)
+    }, [servicesApi])
+
+    // Diferenciais carousel navigation
+    const scrollPrevDiferenciais = useCallback(() => {
+        if (diferenciaisApi) diferenciaisApi.scrollPrev()
+    }, [diferenciaisApi])
+
+    const scrollNextDiferenciais = useCallback(() => {
+        if (diferenciaisApi) diferenciaisApi.scrollNext()
+    }, [diferenciaisApi])
+
+    const scrollToDiferenciais = useCallback((index: number) => {
+        if (diferenciaisApi) diferenciaisApi.scrollTo(index)
+    }, [diferenciaisApi])
 
     // Load Bitrix24 form script
     useEffect(() => {
@@ -163,21 +228,16 @@ export default function HomePage() {
                     {heroImages.map((image, index) => (
                         <div
                             key={index}
-                            className={`absolute inset-0 transition-opacity duration-1000 ${
+                            ref={(el) => {
+                                if (el) heroImageRefs.current[index] = el
+                            }}
+                            className={`hero-slide absolute inset-0 bg-cover bg-center ${
                                 index === currentSlide ? 'opacity-100' : 'opacity-0'
                             }`}
+                            style={{ 
+                                backgroundImage: `url('${image}')`
+                            }}
                         >
-                            {/* Placeholder background - Replace with actual images */}
-                            <div className="w-full h-full bg-gradient-to-br from-light-gray to-off-white">
-                                <div className="w-full h-full flex items-center justify-center text-text-light">
-                                    <div className="text-center">
-                                        <svg className="w-32 h-32 mx-auto mb-4 opacity-10" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
-                                        </svg>
-                                        <p className="text-sm opacity-30">Imagem Hero {index + 1}</p>
-                                    </div>
-                                </div>
-                            </div>
                             {/* Dark overlay */}
                             <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
                         </div>
@@ -187,22 +247,17 @@ export default function HomePage() {
                 {/* Content */}
                 <div className="relative z-10 container mx-auto px-6 lg:px-16 min-h-[calc(100vh-5rem)] flex items-center">
                     <div className="max-w-2xl py-16 lg:py-0">
-                        {/* Eyebrow */}
-                        <div className="text-bee-gold text-xs font-medium tracking-wider uppercase mb-6">
-                            Gestão de Imóveis de Temporada
-                        </div>
 
                         {/* Headline */}
                         <h1 className="text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-8 font-bold drop-shadow-lg">
-                            Transforme seu imóvel<br />
-                            em uma experiência<br />
-                            de <span className="text-bee-gold">hotelaria</span>
+                            Cuidamos do seu patrimônio<br />
+                            como se fosse <span className="text-bee-gold">nosso</span>
                         </h1>
 
                         {/* Subheadline */}
                         <p className="text-lg text-white/90 leading-relaxed mb-10 drop-shadow">
-                            Cuidamos de cada detalhe da sua propriedade com a excelência de um hotel boutique.
-                            Tecnologia invisível, hospitalidade visível.
+                            Zelamos por cada detalhe com cuidado artesanal. 
+                            Tranquilidade para você, rentabilidade para o imóvel.
                         </p>
 
                         {/* CTAs */}
@@ -220,7 +275,7 @@ export default function HomePage() {
                                 href="#servicos"
                                 className="text-white hover:text-bee-gold font-medium inline-flex items-center justify-center gap-2 transition-colors px-4 backdrop-blur-sm bg-white/10 py-4 rounded"
                             >
-                                Ver como funciona
+                                Ver como cuidamos
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
@@ -233,13 +288,13 @@ export default function HomePage() {
                                 <svg className="w-4 h-4 text-bee-gold" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                 </svg>
-                                <span>Consultoria gratuita</span>
+                                <span>Responsabilidade total</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <svg className="w-4 h-4 text-bee-gold" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                 </svg>
-                                <span>Sem compromisso</span>
+                                <span>Zelo em cada detalhe</span>
                             </div>
                         </div>
                     </div>
@@ -249,18 +304,23 @@ export default function HomePage() {
             {/* Logo Bar - Sutil */}
             <section className="py-10 bg-light-gray border-y border-mid-gray">
                 <div className="container mx-auto px-8 lg:px-16">
-                    <div className="logo-scroll-container">
-                        <div className="logo-scroll">
-                            {/* First set */}
-                            <div className="logo-item opacity-30 hover:opacity-60"><img src="/Airbnb.svg" alt="Airbnb" loading="lazy" width="120" height="40" /></div>
-                            <div className="logo-item opacity-30 hover:opacity-60"><img src="/Booking.svg" alt="Booking" loading="lazy" width="120" height="40" /></div>
-                            <div className="logo-item opacity-30 hover:opacity-60"><img src="/Decolar.svg" alt="Decolar" loading="lazy" width="120" height="40" /></div>
-                            <div className="logo-item opacity-30 hover:opacity-60"><img src="/Expedia.svg" alt="Expedia" loading="lazy" width="120" height="40" /></div>
-                            {/* Second set (for seamless loop) */}
-                            <div className="logo-item opacity-30 hover:opacity-60"><img src="/Airbnb.svg" alt="Airbnb" loading="lazy" width="120" height="40" /></div>
-                            <div className="logo-item opacity-30 hover:opacity-60"><img src="/Booking.svg" alt="Booking" loading="lazy" width="120" height="40" /></div>
-                            <div className="logo-item opacity-30 hover:opacity-60"><img src="/Decolar.svg" alt="Decolar" loading="lazy" width="120" height="40" /></div>
-                            <div className="logo-item opacity-30 hover:opacity-60"><img src="/Expedia.svg" alt="Expedia" loading="lazy" width="120" height="40" /></div>
+                    <div className="overflow-hidden" ref={emblaRef}>
+                        <div className="flex touch-pan-y">
+                            {repeatedLogos.map((logo, index) => (
+                                <div 
+                                    key={index} 
+                                    className="flex-[0_0_auto] min-w-0 px-8 flex items-center justify-center opacity-30 hover:opacity-60 transition-opacity duration-1200"
+                                >
+                                    <img 
+                                        src={logo.src} 
+                                        alt={logo.alt} 
+                                        loading="lazy" 
+                                        width="120" 
+                                        height="40" 
+                                        className="h-10 w-auto object-contain"
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -281,57 +341,48 @@ export default function HomePage() {
 
                     {/* Carousel Container */}
                     <div className="relative">
-                        {/* Navigation Buttons - Hidden on mobile */}
+                        {/* Navigation Buttons - Visible on all devices */}
                         <button
-                            onClick={prevService}
-                            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white border border-mid-gray rounded-full items-center justify-center hover:border-bee-gold hover:bg-bee-gold/10 transition-all shadow-lg"
+                            onClick={scrollPrev}
+                            className="flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-4 z-10 w-10 h-10 md:w-12 md:h-12 bg-white border border-mid-gray rounded-full items-center justify-center hover:border-bee-gold hover:bg-bee-gold/10 transition-all shadow-lg"
                             aria-label="Anterior"
                         >
-                            <svg className="w-6 h-6 text-bee-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 md:w-6 md:h-6 text-bee-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
 
                         <button
-                            onClick={nextService}
-                            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white border border-mid-gray rounded-full items-center justify-center hover:border-bee-gold hover:bg-bee-gold/10 transition-all shadow-lg"
+                            onClick={scrollNext}
+                            className="flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-4 z-10 w-10 h-10 md:w-12 md:h-12 bg-white border border-mid-gray rounded-full items-center justify-center hover:border-bee-gold hover:bg-bee-gold/10 transition-all shadow-lg"
                             aria-label="Próximo"
                         >
-                            <svg className="w-6 h-6 text-bee-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 md:w-6 md:h-6 text-bee-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
 
                         {/* Cards Container with smooth transition */}
-                        <div className="overflow-hidden">
-                            <div
-                                ref={carouselRef}
-                                className="flex transition-transform duration-500 ease-in-out gap-8 lg:gap-12 cursor-grab active:cursor-grabbing"
-                                style={{ transform: `translateX(-${currentServiceIndex * (100 / 2)}%)` }}
-                                onMouseDown={handleDragStart}
-                                onMouseMove={handleDragMove}
-                                onMouseUp={handleDragEnd}
-                                onMouseLeave={handleDragEnd}
-                                onTouchStart={handleDragStart}
-                                onTouchMove={handleDragMove}
-                                onTouchEnd={handleDragEnd}
-                            >
-                                {[...services, ...services].map((service, index) => {
+                        <div className="overflow-hidden" ref={servicesRef}>
+                            <div className="flex touch-pan-y -ml-6">
+                                {services.map((service, index) => {
                                     const IconComponent = Icons[service.icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>
                                     return (
                                         <div
                                             key={index}
-                                            className="min-w-[calc(100%-2rem)] md:min-w-[calc(50%-1rem)] lg:min-w-[calc(50%-1.5rem)] group bg-white border border-mid-gray rounded-lg p-10 hover:border-bee-gold transition-all duration-300 hover:shadow-lg"
+                                            className="flex-[0_0_100%] md:flex-[0_0_50%] pl-6 min-w-0"
                                         >
-                                            <div className="mb-6">
-                                                <IconComponent className="w-10 h-10 text-bee-gold" />
+                                            <div className="group h-full bg-white border border-mid-gray rounded-lg p-10 hover:border-bee-gold transition-all duration-300 hover:shadow-lg">
+                                                <div className="mb-6">
+                                                    <IconComponent className="w-10 h-10 text-bee-gold" />
+                                                </div>
+                                                <h3 className="text-2xl font-semibold text-bee-black mb-4">
+                                                    {service.title}
+                                                </h3>
+                                                <p className="text-text-gray leading-relaxed">
+                                                    {service.description}
+                                                </p>
                                             </div>
-                                            <h3 className="text-2xl font-semibold text-bee-black mb-4">
-                                                {service.title}
-                                            </h3>
-                                            <p className="text-text-gray leading-relaxed">
-                                                {service.description}
-                                            </p>
                                         </div>
                                     )
                                 })}
@@ -343,7 +394,7 @@ export default function HomePage() {
                             {services.map((_, index) => (
                                 <button
                                     key={index}
-                                    onClick={() => setCurrentServiceIndex(index)}
+                                    onClick={() => scrollTo(index)}
                                     className={`w-2 h-2 rounded-full transition-all ${
                                         index === currentServiceIndex ? 'bg-bee-gold w-8' : 'bg-mid-gray'
                                     }`}
@@ -382,10 +433,10 @@ export default function HomePage() {
                                 <div className="absolute left-[1.75rem] md:left-[2.75rem] top-8 md:top-10 w-2 h-2 bg-bee-gold rounded-full"></div>
 
                                 <h3 className="text-xl md:text-2xl font-semibold text-bee-black mb-3">
-                                    Consultoria Sem Compromisso
+                                    Consultoria personalizada
                                 </h3>
                                 <p className="text-text-gray leading-relaxed">
-                                    Visitamos seu imóvel, analisamos potencial e apresentamos proposta personalizada.
+                                    Análise de potencial e proposta personalizada.
                                 </p>
                             </div>
 
@@ -400,7 +451,7 @@ export default function HomePage() {
                                     Preparação do Espaço
                                 </h3>
                                 <p className="text-text-gray leading-relaxed">
-                                    Fotografia profissional, cadastro nas plataformas e otimização do anúncio.
+                                    Fotos profissionais, anúncio e setup completo.
                                 </p>
                             </div>
 
@@ -415,7 +466,7 @@ export default function HomePage() {
                                     Gestão Ativa
                                 </h3>
                                 <p className="text-text-gray leading-relaxed">
-                                    Atendimento a hóspedes, operação diária e manutenção contínua.
+                                    Operação diária e atendimento 24/7.
                                 </p>
                             </div>
 
@@ -430,7 +481,7 @@ export default function HomePage() {
                                     Relatórios Transparentes
                                 </h3>
                                 <p className="text-text-gray leading-relaxed">
-                                    Acompanhe tudo pelo dashboard e receba análises mensais detalhadas.
+                                    Acompanhamento total via dashboard e repasses.
                                 </p>
                             </div>
 
@@ -607,69 +658,76 @@ export default function HomePage() {
                         </h2>
                     </div>
 
-                    {/* Grid 3 Colunas */}
-                    <div className="grid md:grid-cols-3 gap-10 lg:gap-16">
+                    {/* Carousel Container */}
+                    <div className="relative">
+                        {/* Navigation Buttons - Hidden on desktop since it shows all 3 items */}
+                        <button
+                            onClick={scrollPrevDiferenciais}
+                            className="flex lg:hidden absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-4 z-10 w-10 h-10 md:w-12 md:h-12 bg-white border border-mid-gray rounded-full items-center justify-center hover:border-bee-gold hover:bg-bee-gold/10 transition-all shadow-lg"
+                            aria-label="Anterior"
+                        >
+                            <svg className="w-5 h-5 md:w-6 md:h-6 text-bee-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
 
-                        {/* Diferencial 1: Transparência */}
-                        <div className="group">
-                            {/* Image placeholder */}
-                            <div className="aspect-[4/3] bg-light-gray rounded mb-6 overflow-hidden relative">
-                                <div className="w-full h-full flex items-center justify-center text-text-light">
-                                    <div className="text-center p-6">
-                                        <Icons.Cpu className="w-14 h-14 mx-auto mb-2 opacity-20" />
-                                        <p className="text-xs opacity-40">Dashboard em laptop</p>
-                                    </div>
-                                </div>
+                        <button
+                            onClick={scrollNextDiferenciais}
+                            className="flex lg:hidden absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-4 z-10 w-10 h-10 md:w-12 md:h-12 bg-white border border-mid-gray rounded-full items-center justify-center hover:border-bee-gold hover:bg-bee-gold/10 transition-all shadow-lg"
+                            aria-label="Próximo"
+                        >
+                            <svg className="w-5 h-5 md:w-6 md:h-6 text-bee-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+
+                        {/* Embla Viewport */}
+                        <div className="overflow-hidden" ref={diferenciaisRef}>
+                            <div className="flex touch-pan-y lg:cursor-default -ml-6">
+                                {diferenciaisData.map((item, index) => {
+                                    const IconComponent = Icons[item.icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>
+                                    return (
+                                        <div 
+                                            key={index}
+                                            className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.33%] pl-6 min-w-0"
+                                        >
+                                            <div className="group h-full">
+                                                {/* Image placeholder */}
+                                                <div className="aspect-[4/3] bg-light-gray rounded mb-6 overflow-hidden relative">
+                                                    <div className="w-full h-full flex items-center justify-center text-text-light">
+                                                        <div className="text-center p-6">
+                                                            <IconComponent className="w-14 h-14 mx-auto mb-2 opacity-20" />
+                                                            <p className="text-xs opacity-40">{item.imageAlt}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <h3 className="text-xl font-semibold text-bee-black mb-3">
+                                                    {item.title}
+                                                </h3>
+                                                <p className="text-text-gray leading-relaxed text-sm">
+                                                    {item.description}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
                             </div>
-
-                            <h3 className="text-xl font-semibold text-bee-black mb-3">
-                                Transparência Total
-                            </h3>
-                            <p className="text-text-gray leading-relaxed text-sm">
-                                Acompanhe reservas, receita e operação em tempo real. Relatórios financeiros mensais detalhados.
-                            </p>
                         </div>
 
-                        {/* Diferencial 2: Tecnologia */}
-                        <div className="group">
-                            {/* Image placeholder */}
-                            <div className="aspect-[4/3] bg-light-gray rounded mb-6 overflow-hidden relative">
-                                <div className="w-full h-full flex items-center justify-center text-text-light">
-                                    <div className="text-center p-6">
-                                        <Icons.Cpu className="w-14 h-14 mx-auto mb-2 opacity-20" />
-                                        <p className="text-xs opacity-40">Pessoa verificando imóvel</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h3 className="text-xl font-semibold text-bee-black mb-3">
-                                Tecnologia Invisível
-                            </h3>
-                            <p className="text-text-gray leading-relaxed text-sm">
-                                Automação de check-in, precificação dinâmica e gestão de canais. Você só vê os resultados.
-                            </p>
+                        {/* Dots Indicator - Hidden on desktop */}
+                        <div className="flex lg:hidden justify-center gap-2 mt-8">
+                            {diferenciaisData.map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => scrollToDiferenciais(index)}
+                                    className={`w-2 h-2 rounded-full transition-all ${
+                                        index === currentDiferenciaisIndex ? 'bg-bee-gold w-8' : 'bg-mid-gray'
+                                    }`}
+                                    aria-label={`Ir para diferencial ${index + 1}`}
+                                />
+                            ))}
                         </div>
-
-                        {/* Diferencial 3: Cuidado */}
-                        <div className="group">
-                            {/* Image placeholder */}
-                            <div className="aspect-[4/3] bg-light-gray rounded mb-6 overflow-hidden relative">
-                                <div className="w-full h-full flex items-center justify-center text-text-light">
-                                    <div className="text-center p-6">
-                                        <Icons.Star className="w-14 h-14 mx-auto mb-2 opacity-20" />
-                                        <p className="text-xs opacity-40">Detalhe de limpeza premium</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h3 className="text-xl font-semibold text-bee-black mb-3">
-                                Cuidado Artesanal
-                            </h3>
-                            <p className="text-text-gray leading-relaxed text-sm">
-                                Cada propriedade tem um gestor dedicado. Atendimento humanizado, não automatizado.
-                            </p>
-                        </div>
-
                     </div>
                 </div>
             </section>
@@ -841,8 +899,7 @@ export default function HomePage() {
                             </h2>
 
                             <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-                                Descubra o potencial real do seu imóvel em uma consultoria personalizada.
-                                <strong className="text-white"> Sem compromisso, apenas dados reais.</strong>
+                                Descubra o potencial do seu imóvel em uma análise gratuita.
                             </p>
 
                             {/* Trust badges */}
@@ -936,7 +993,7 @@ export default function HomePage() {
                 </div>
             </footer>
 
-            {/* WhatsApp Floating Button */}
+            {/* WhatsApp Floating Button*/}
             <a href="https://wa.me/5547999999999?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20BeeStay"
                 target="_blank"
                 rel="noopener noreferrer"

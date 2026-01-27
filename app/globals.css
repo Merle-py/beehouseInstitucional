@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+@keyframes zoomIn {
+    0% {
+        transform: scale(1);
+    }
+    70% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+.hero-slide {
+    transition: opacity 1.5s ease-in-out !important;
+}
+
 @theme {
     /* Paleta BeeStay - Simples e Direta */
     --color-bee-black: #0a0a0a;
