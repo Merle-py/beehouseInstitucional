@@ -810,7 +810,7 @@ export default function HomePage() {
                         {/* Left - Image Side (Full Height Cover) */}
                         <div className="relative h-[300px] lg:h-auto min-h-[400px] w-full">
                             <img 
-                                src="https://images.unsplash.com/photo-1600596542815-6ad4c12756ab?q=80&w=1000" 
+                                src="/hero-1.webp" 
                                 className="absolute inset-0 w-full h-full object-cover" 
                                 alt="Interior de alto padrão" 
                             />
@@ -822,34 +822,30 @@ export default function HomePage() {
                             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white">
                                 Seu imóvel rendendo <span className="text-bee-gold">muito mais</span>, com zero esforço.
                             </h2>
-                            <p className="text-gray-300 text-lg mb-10 leading-relaxed">
+                            <p className="text-gray-300 text-lg mb-8 leading-relaxed">
                                 Transformamos sua propriedade em um ativo de alta performance. Cuidamos da distribuição, precificação, hóspedes e manutenção.
                             </p>
                             
-                            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center mb-12">
+                            <div className="mb-10">
                                 <a 
                                     href="#contato" 
-                                    className="bg-bee-gold hover:bg-bee-gold-dark text-bee-black font-bold py-4 px-8 rounded-lg inline-flex items-center gap-2 transition-all hover:scale-105 shadow-[0_0_20px_rgba(249,180,16,0.4)]"
+                                    className="bg-bee-gold hover:bg-bee-gold-dark text-bee-black font-bold py-4 px-8 rounded-lg w-full sm:w-auto inline-flex justify-center items-center gap-2 transition-all hover:scale-105 shadow-[0_0_20px_rgba(249,180,16,0.4)]"
                                 >
                                     ANUNCIE AGORA
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                     </svg>
                                 </a>
-                                <div className="text-sm text-gray-400">
-                                    <span className="block text-bee-gold font-bold">Análise Gratuita</span>
-                                    
-                                </div>
                             </div>
 
                             {/* Trust Bar (Static & Clean) */}
                             <div className="border-t border-white/10 pt-8">
                                 <p className="text-sm text-gray-500 mb-4">Seu imóvel presente nas maiores plataformas:</p>
-                                <div className="flex flex-wrap gap-6 items-center opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-                                    <img src="/Airbnb.svg" className="h-6 w-auto brightness-0 invert" alt="Airbnb" />
-                                    <img src="/Booking.svg" className="h-5 w-auto brightness-0 invert" alt="Booking" />
-                                    <img src="/Expedia.svg" className="h-5 w-auto brightness-0 invert" alt="Expedia" />
-                                    <img src="/Decolar.svg" className="h-5 w-auto brightness-0 invert" alt="Decolar" />
+                                <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 sm:gap-6 items-center opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+                                    <img src="/Airbnb.svg" className="h-6 w-auto brightness-0 invert mx-auto sm:mx-0" alt="Airbnb" />
+                                    <img src="/Booking.svg" className="h-5 w-auto brightness-0 invert mx-auto sm:mx-0" alt="Booking" />
+                                    <img src="/Expedia.svg" className="h-5 w-auto brightness-0 invert mx-auto sm:mx-0" alt="Expedia" />
+                                    <img src="/Decolar.svg" className="h-5 w-auto brightness-0 invert mx-auto sm:mx-0" alt="Decolar" />
                                 </div>
                             </div>
                         </div>
@@ -964,8 +960,7 @@ export default function HomePage() {
                         {/* Left Content */}
                         <div className="text-center lg:text-left">
                             <h2 className="text-3xl sm:text-4xl md:text-5xl mb-6 leading-tight font-bold">
-                                Pronto para uma gestão<br />
-                                sem <span className="text-bee-gold">preocupações</span>?
+                                Pronto para uma gestão sem <span className="text-bee-gold">preocupações</span>?
                             </h2>
 
                             <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
