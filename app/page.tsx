@@ -760,9 +760,9 @@ export default function HomePage() {
                             
                             <a 
                                 href="#contato" 
-                                className="bg-bee-gold hover:bg-bee-gold-dark text-bee-black font-bold py-4 px-8 rounded-lg inline-flex items-center gap-2 transition-all hover:scale-105 shadow-[0_0_20px_rgba(249,180,16,0.2)] uppercase tracking-wide text-sm md:text-base"
+                                className="bg-bee-gold hover:bg-bee-gold-dark text-bee-black font-bold py-4 px-8 rounded-lg w-full inline-flex justify-center items-center gap-2 transition-all hover:scale-105 shadow-[0_0_20px_rgba(249,180,16,0.2)] uppercase tracking-wide text-sm md:text-base"
                             >
-                                FAZER PARTE DESSA HISTÓRIA
+                                QUERO FAZER PARTE DESSA HISTÓRIA
                             </a>
                         </div>
 
