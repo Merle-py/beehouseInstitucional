@@ -19,7 +19,7 @@ export default function HomePage() {
     const [servicesRef, servicesApi] = useEmblaCarousel({ loop: true, align: 'start', slidesToScroll: 1 })
 
     // Embla Carousel for Diferenciais
-    const [diferenciaisRef, diferenciaisApi] = useEmblaCarousel({ loop: true, align: 'start', slidesToScroll: 1 })
+    const [diferenciaisRef, diferenciaisApi] = useEmblaCarousel({ loop: true, align: 'center', slidesToScroll: 1 })
 
     const logos = [
         { src: '/Airbnb.svg', alt: 'Airbnb' },
@@ -71,19 +71,22 @@ export default function HomePage() {
             title: 'Transparência Total',
             description: 'Receita e reservas em tempo real no seu dashboard. Sem letras miúdas.',
             icon: 'ChartLineUp',
-            imageAlt: 'Dashboard em laptop'
+            imageAlt: 'Dashboard em laptop',
+            imageSrc: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop'
         },
         {
             title: 'Tecnologia de Ponta',
             description: 'Automação completa do check-in ao checkout. Menos preocupações para você.',
             icon: 'Cpu',
-            imageAlt: 'Pessoa verificando imóvel'
+            imageAlt: 'Pessoa verificando imóvel',
+            imageSrc: 'https://images.unsplash.com/photo-1558002038-1091a1661116?q=80&w=800'
         },
         {
             title: 'Cuidado Artesanal',
             description: 'Gestor dedicado e atendimento humano. Seu imóvel é único para nós.',
             icon: 'Handshake',
-            imageAlt: 'Detalhe de limpeza premium'
+            imageAlt: 'Detalhe de limpeza premium',
+            imageSrc: 'https://images.unsplash.com/photo-1584622050111-993a426fbf0a?q=80&w=800'
         }
     ]
 
@@ -668,22 +671,29 @@ export default function HomePage() {
 
                         {/* Embla Viewport */}
                         <div className="overflow-hidden" ref={diferenciaisRef}>
-                            <div className="flex touch-pan-y lg:cursor-default -ml-4 md:-ml-6">
+                            <div className="flex touch-pan-y lg:cursor-default">
                                 {diferenciaisData.map((item, index) => {
                                     const IconComponent = Icons[item.icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>
                                     return (
                                         <div 
                                             key={index}
-                                            className="flex-[0_0_85%] md:flex-[0_0_50%] lg:flex-[0_0_33.33%] pl-4 md:pl-6 min-w-0"
+                                            className="flex-[0_0_85%] md:flex-[0_0_50%] lg:flex-[0_0_33.33%] px-3 md:px-4 min-w-0"
                                         >
                                             <div className="h-full bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-bee-gold/30 transition-all duration-300 group flex flex-col">
-                                                {/* Visual Placeholder / Image Area */}
-                                                <div className="h-48 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center relative overflow-hidden shrink-0">
-                                                     {/* Decorative circles */}
-                                                     <div className="absolute top-[-20%] right-[-10%] w-32 h-32 bg-bee-gold/5 rounded-full blur-2xl group-hover:bg-bee-gold/10 transition-colors"></div>
-                                                     <div className="absolute bottom-[-20%] left-[-10%] w-24 h-24 bg-bee-gold/5 rounded-full blur-2xl group-hover:bg-bee-gold/10 transition-colors"></div>
+                                                {/* Visual Area with Image */}
+                                                <div className="h-48 relative overflow-hidden shrink-0">
+                                                     <img 
+                                                        src={item.imageSrc || '/hero-1.webp'} 
+                                                        alt={item.imageAlt} 
+                                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                                                     />
+                                                     {/* Overlay */}
+                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-80 group-hover:opacity-70 transition-opacity"></div>
                                                      
-                                                     <IconComponent className="w-16 h-16 text-gray-300 group-hover:text-bee-gold group-hover:scale-110 transition-all duration-300 relative z-10" />
+                                                     {/* Icon Badge */}
+                                                     <div className="absolute bottom-4 right-4 z-10 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20">
+                                                        <IconComponent className="w-6 h-6 text-white" />
+                                                     </div>
                                                 </div>
                                                 
                                                 <div className="p-8 flex flex-col grow">
@@ -747,8 +757,12 @@ export default function HomePage() {
                                 </p>
 
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-bee-gold/10 rounded-full flex items-center justify-center">
-                                        <span className="text-bee-gold font-semibold text-sm">MC</span>
+                                    <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md shrink-0">
+                                        <img 
+                                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200" 
+                                            alt="Mariana Costa" 
+                                            className="w-full h-full object-cover" 
+                                        />
                                     </div>
                                     <div>
                                         <div className="text-bee-black font-semibold">Mariana Costa</div>
@@ -766,8 +780,12 @@ export default function HomePage() {
                                 </p>
 
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-bee-gold/10 rounded-full flex items-center justify-center">
-                                        <span className="text-bee-gold font-semibold text-sm">RS</span>
+                                    <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md shrink-0">
+                                        <img 
+                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200" 
+                                            alt="Roberto Silva" 
+                                            className="w-full h-full object-cover" 
+                                        />
                                     </div>
                                     <div>
                                         <div className="text-bee-black font-semibold">Roberto Silva</div>
