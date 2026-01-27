@@ -740,25 +740,29 @@ export default function HomePage() {
                 <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-bee-gold/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
                 
                 <div className="container mx-auto px-6 lg:px-16 max-w-7xl relative z-10">
-                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+                    
+                    {/* Mobile Title (Visible only on mobile) */}
+                    <div className="lg:hidden text-center mb-10">
+                        <h2 className="text-3xl font-bold leading-tight">
+                            Por que escolhemos <span className="text-bee-gold">Joinville</span> para começar essa revolução?
+                        </h2>
+                    </div>
+
+                    <div className="grid lg:grid-cols-2 gap-8 lg:gap-24 items-center">
                         
-                        {/* Text Content */}
+                        {/* Text Content (Desktop Title + All Text/Button) */}
                         <div className="text-center lg:text-left order-2 lg:order-1">
-                            <div className="inline-block px-3 py-1 mb-6 border border-bee-gold/30 rounded-full bg-bee-gold/10 text-bee-gold text-xs font-bold tracking-wider uppercase">
-                                Palavra do CEO
+                            <div className="hidden lg:block">
+                                <h2 className="text-3xl md:text-4xl lg:text-5xl mb-6 font-bold leading-tight">
+                                    Por que escolhemos <span className="text-bee-gold">Joinville</span> para começar essa revolução?
+                                </h2>
                             </div>
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl mb-6 font-bold leading-tight">
-                                Por que escolhi <span className="text-bee-gold">Joinville</span> para começar essa revolução?
-                            </h2>
-                            <p className="text-lg text-gray-400 mb-10 leading-relaxed">
-                                "Encontramos aqui o cenário perfeito: um mercado imobiliário sólido e uma demanda reprimida por gestão profissional. A BeeStay não é apenas uma empresa, é a nossa visão de futuro para a cidade."
-                            </p>
                             
                             <a 
                                 href="#contato" 
                                 className="bg-bee-gold hover:bg-bee-gold-dark text-bee-black font-bold py-4 px-8 rounded-lg inline-flex items-center gap-2 transition-all hover:scale-105 shadow-[0_0_20px_rgba(249,180,16,0.2)] uppercase tracking-wide text-sm md:text-base"
                             >
-                                QUERO FAZER PARTE DESSA HISTÓRIA
+                                FAZER PARTE DESSA HISTÓRIA
                             </a>
                         </div>
 
@@ -769,7 +773,7 @@ export default function HomePage() {
                                 <img 
                                     src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1000" 
                                     className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500" 
-                                    alt="Fernando - CEO BeeStay" 
+                                    alt="André Andrade - CEO BeeStay" 
                                 />
                                 
                                 {/* Custom Play Button */}
@@ -784,7 +788,7 @@ export default function HomePage() {
 
                                 {/* Minimal Tag */}
                                 <div className="absolute bottom-6 left-6 text-left">
-                                    <p className="text-white font-bold text-xl">Fernando</p>
+                                    <p className="text-white font-bold text-xl">André A.</p>
                                     <p className="text-bee-gold text-sm font-medium tracking-wide">CEO BeeStay</p>
                                 </div>
                             </div>
