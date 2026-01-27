@@ -407,84 +407,69 @@ export default function HomePage() {
             </section>
 
             {/* Processo - Como Funciona (Timeline) */}
-            <section id="processo" className="py-20 lg:py-32 bg-white relative">
-                <div className="container mx-auto px-6 lg:px-16 max-w-5xl">
+            <section id="processo" className="py-20 lg:py-32 bg-white relative overflow-hidden">
+                <div className="container mx-auto px-6 lg:px-16 max-w-6xl">
 
                     {/* Section Header */}
-                    <div className="text-center mb-12 lg:mb-16">
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl text-bee-black mb-4 leading-tight font-bold">
+                    <div className="text-center mb-16 lg:mb-24">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl text-bee-black mb-6 leading-tight font-bold">
                             Simples para você,<br />completo para seu imóvel
                         </h2>
+                        <p className="text-lg text-text-gray max-w-2xl mx-auto">
+                            Transformamos sua propriedade em um negócio rentável em apenas 4 passos.
+                        </p>
                     </div>
 
-                    {/* Timeline Vertical */}
-                    <div className="relative">
-                        {/* Vertical Line */}
-                        <div className="absolute left-8 md:left-12 top-0 bottom-0 w-px bg-mid-gray"></div>
+                    {/* Timeline */}
+                    <div className="relative max-w-4xl mx-auto">
+                        {/* Continuous Vertical Line */}
+                        <div className="absolute left-[19px] md:left-[39px] top-0 bottom-0 w-px bg-gradient-to-b from-gray-200 via-gray-300 to-gray-200"></div>
 
-                        {/* Steps */}
-                        <div className="space-y-16">
+                        <div className="space-y-12">
+                            {[
+                                {
+                                    step: '01',
+                                    title: 'Consultoria Personalizada',
+                                    description: 'Análise de potencial e proposta personalizada. Entendemos seus objetivos e definimos a melhor estratégia.'
+                                },
+                                {
+                                    step: '02',
+                                    title: 'Preparação do Espaço',
+                                    description: 'Fotos profissionais, criação de anúncios e setup completo. Deixamos tudo pronto para receber os hóspedes.'
+                                },
+                                {
+                                    step: '03',
+                                    title: 'Gestão Ativa 24/7',
+                                    description: 'Operação diária, check-in/out, limpeza e manutenção. Cuidamos de tudo para você não se preocupar com nada.'
+                                },
+                                {
+                                    step: '04',
+                                    title: 'Resultados Transparentes',
+                                    description: 'Acompanhamento total via dashboard e repasses mensais. Você vê o dinheiro entrar, sem a dor de cabeça.'
+                                }
+                            ].map((item, index) => (
+                                <div key={index} className="relative pl-16 md:pl-28 group">
+                                    {/* Marker */}
+                                    <div className="absolute left-0 md:left-[20px] top-0 w-10 h-10 md:w-10 md:h-10 bg-white border-2 border-bee-gold rounded-full flex items-center justify-center z-10 shadow-[0_0_0_4px_#ffffff] group-hover:bg-bee-gold transition-colors duration-300">
+                                        <div className="w-2.5 h-2.5 bg-bee-gold rounded-full group-hover:bg-white transition-colors duration-300"></div>
+                                    </div>
 
-                            {/* Step 01 */}
-                            <div className="relative pl-20 md:pl-28">
-                                <div className="absolute left-0 top-0 w-16 md:w-24 h-16 md:h-24 flex items-center justify-center">
-                                    <span className="text-4xl md:text-6xl text-bee-gold/20 font-bold">01</span>
+                                    {/* Card */}
+                                    <div className="bg-white border border-gray-100 p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-xl hover:border-bee-gold/30 transition-all duration-300 hover:-translate-y-1">
+                                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 mb-3">
+                                            <span className="text-4xl md:text-5xl font-bold text-gray-100 group-hover:text-bee-gold/20 transition-colors duration-300 font-sans tracking-tighter">
+                                                {item.step}
+                                            </span>
+                                            <h3 className="text-xl md:text-2xl font-bold text-bee-black group-hover:text-bee-gold transition-colors">
+                                                {item.title}
+                                            </h3>
+                                        </div>
+                                        <p className="text-text-gray leading-relaxed text-base md:text-lg">
+                                            {item.description}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="absolute left-[1.75rem] md:left-[2.75rem] top-8 md:top-10 w-2 h-2 bg-bee-gold rounded-full"></div>
-
-                                <h3 className="text-xl md:text-2xl font-semibold text-bee-black mb-3">
-                                    Consultoria personalizada
-                                </h3>
-                                <p className="text-text-gray leading-relaxed">
-                                    Análise de potencial e proposta personalizada.
-                                </p>
-                            </div>
-
-                            {/* Step 02 */}
-                            <div className="relative pl-20 md:pl-28">
-                                <div className="absolute left-0 top-0 w-16 md:w-24 h-16 md:h-24 flex items-center justify-center">
-                                    <span className="text-4xl md:text-6xl text-bee-gold/20 font-bold">02</span>
-                                </div>
-                                <div className="absolute left-[1.75rem] md:left-[2.75rem] top-8 md:top-10 w-2 h-2 bg-bee-gold rounded-full"></div>
-
-                                <h3 className="text-xl md:text-2xl font-semibold text-bee-black mb-3">
-                                    Preparação do Espaço
-                                </h3>
-                                <p className="text-text-gray leading-relaxed">
-                                    Fotos profissionais, anúncio e setup completo.
-                                </p>
-                            </div>
-
-                            {/* Step 03 */}
-                            <div className="relative pl-20 md:pl-28">
-                                <div className="absolute left-0 top-0 w-16 md:w-24 h-16 md:h-24 flex items-center justify-center">
-                                    <span className="text-4xl md:text-6xl text-bee-gold/20 font-bold">03</span>
-                                </div>
-                                <div className="absolute left-[1.75rem] md:left-[2.75rem] top-8 md:top-10 w-2 h-2 bg-bee-gold rounded-full"></div>
-
-                                <h3 className="text-xl md:text-2xl font-semibold text-bee-black mb-3">
-                                    Gestão Ativa
-                                </h3>
-                                <p className="text-text-gray leading-relaxed">
-                                    Operação diária e atendimento 24/7.
-                                </p>
-                            </div>
-
-                            {/* Step 04 */}
-                            <div className="relative pl-20 md:pl-28">
-                                <div className="absolute left-0 top-0 w-16 md:w-24 h-16 md:h-24 flex items-center justify-center">
-                                    <span className="text-4xl md:text-6xl text-bee-gold/20 font-bold">04</span>
-                                </div>
-                                <div className="absolute left-[1.75rem] md:left-[2.75rem] top-8 md:top-10 w-2 h-2 bg-bee-gold rounded-full"></div>
-
-                                <h3 className="text-xl md:text-2xl font-semibold text-bee-black mb-3">
-                                    Relatórios Transparentes
-                                </h3>
-                                <p className="text-text-gray leading-relaxed">
-                                    Acompanhamento total via dashboard e repasses.
-                                </p>
-                            </div>
-
+                            ))}
                         </div>
                     </div>
 
