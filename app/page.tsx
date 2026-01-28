@@ -17,7 +17,7 @@ export default function HomePage() {
     const [currentServiceIndex, setCurrentServiceIndex] = useState(0)
     const [currentDiferenciaisIndex, setCurrentDiferenciaisIndex] = useState(0)
     const [formLoaded, setFormLoaded] = useState(false)
-    
+
     // Embla Carousel for Logos
     const [emblaRef] = useEmblaCarousel({ loop: true, watchDrag: false }, [
         AutoScroll({ playOnInit: true, stopOnInteraction: false, speed: 0.5 })
@@ -310,10 +310,9 @@ export default function HomePage() {
                             ref={(el) => {
                                 if (el) heroImageRefs.current[index] = el
                             }}
-                            className={`hero-slide absolute inset-0 bg-cover bg-center ${
-                                index === currentSlide ? 'opacity-100' : 'opacity-0'
-                            }`}
-                            style={{ 
+                            className={`hero-slide absolute inset-0 bg-cover bg-center ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+                                }`}
+                            style={{
                                 backgroundImage: `url('${image}')`
                             }}
                         >
@@ -334,7 +333,7 @@ export default function HomePage() {
 
                         {/* Subheadline */}
                         <p className="text-lg text-white/90 leading-relaxed mb-10 drop-shadow">
-                            Zelamos por cada detalhe com cuidado artesanal. 
+                            Zelamos por cada detalhe com cuidado artesanal.
                             Tranquilidade para você, rentabilidade para o imóvel.
                         </p>
 
@@ -460,9 +459,8 @@ export default function HomePage() {
                                 <button
                                     key={index}
                                     onClick={() => scrollTo(index)}
-                                    className={`w-2 h-2 rounded-full transition-all ${
-                                        index === currentServiceIndex ? 'bg-bee-gold w-8' : 'bg-mid-gray'
-                                    }`}
+                                    className={`w-2 h-2 rounded-full transition-all ${index === currentServiceIndex ? 'bg-bee-gold w-8' : 'bg-mid-gray'
+                                        }`}
                                     aria-label={`Ir para serviço ${index + 1}`}
                                 />
                             ))}
@@ -501,24 +499,38 @@ export default function HomePage() {
             </section>
 
             {/* CTA Section - High Conversion Premium (Moved Up) */}
-            <section className="py-20 px-4 md:px-8 lg:px-16 bg-white">
+            <section className="py-12 md:py-16 px-4 md:px-8 lg:px-16 bg-white">
                 <div className="bg-bee-black rounded-[2rem] md:rounded-[3rem] overflow-hidden relative isolate shadow-2xl max-w-7xl mx-auto">
                     {/* Background Texture & Glow */}
                     <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
                     <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-bee-gold/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
 
                     <div className="grid lg:grid-cols-2 gap-0 lg:gap-12 items-stretch">
-                        
-                        {/* Left - Image Side (Full Height Cover) */}
-                        <div className="relative h-[300px] lg:h-auto min-h-[400px] w-full">
-                            <Image
-                                src="https://images.unsplash.com/photo-1600596542815-6ad4c12756ab?q=80&w=1000"
-                                className="absolute inset-0 w-full h-full object-cover"
-                                alt="Interior de alto padrão"
-                                fill
-                                sizes="(max-width: 1024px) 100vw, 50vw"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-r from-bee-black/50 to-transparent lg:bg-gradient-to-t lg:from-bee-black/20"></div>
+
+                        {/* Left - Video Side (Full Height Cover) */}
+                        <div className="relative h-[300px] lg:h-auto lg:min-h-[400px] w-full flex items-center justify-center p-4 md:p-6">
+                            <div className="w-full max-w-full group cursor-pointer">
+                                <div className="relative rounded-2xl overflow-hidden aspect-video border border-white/10 shadow-2xl transition-all duration-500 group-hover:border-bee-gold/50 group-hover:shadow-[0_0_30px_rgba(249,180,16,0.15)]">
+                                    {/* Thumbnail Image (Darkened) */}
+                                    <Image
+                                        src="https://images.unsplash.com/photo-1600596542815-6ad4c12756ab?q=80&w=1000"
+                                        className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500"
+                                        alt="Seu imóvel rendendo muito mais"
+                                        fill
+                                        sizes="(max-width: 1024px) 100vw, 50vw"
+                                    />
+
+                                    {/* Custom Play Button */}
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <div className="w-20 h-20 bg-bee-gold rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 relative">
+                                            <div className="absolute inset-0 bg-bee-gold rounded-full animate-ping opacity-20"></div>
+                                            <svg className="w-8 h-8 text-bee-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M8 5v14l11-7z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Right - Content Side */}
@@ -529,7 +541,7 @@ export default function HomePage() {
                             <p className="text-gray-300 text-lg mb-8 leading-relaxed">
                                 Transformamos sua propriedade em um ativo de alta performance. Cuidamos da divulgação, precificação, atendimento aos hóspedes, limpeza e manutenção.
                             </p>
-                            
+
                             <div className="mb-10">
                                 <a
                                     href="#contato"
@@ -665,29 +677,29 @@ export default function HomePage() {
                                 {diferenciaisData.map((item, index) => {
                                     const IconComponent = Icons[item.icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>
                                     return (
-                                        <div 
+                                        <div
                                             key={index}
                                             className="flex-[0_0_85%] md:flex-[0_0_50%] lg:flex-[0_0_33.33%] px-3 md:px-4 min-w-0"
                                         >
                                             <div className="h-full bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-bee-gold/30 transition-all duration-300 group flex flex-col">
                                                 {/* Visual Area with Image */}
                                                 <div className="h-48 relative overflow-hidden shrink-0">
-                                                     <Image
+                                                    <Image
                                                         src={item.imageSrc || getImagePath('/hero-1.webp')}
                                                         alt={item.imageAlt}
                                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                                         fill
                                                         sizes="(max-width: 768px) 85vw, (max-width: 1024px) 50vw, 33vw"
-                                                     />
-                                                     {/* Overlay */}
-                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-80 group-hover:opacity-70 transition-opacity"></div>
+                                                    />
+                                                    {/* Overlay */}
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-80 group-hover:opacity-70 transition-opacity"></div>
 
-                                                     {/* Icon Badge */}
-                                                     <div className="absolute bottom-4 right-4 z-10 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20">
+                                                    {/* Icon Badge */}
+                                                    <div className="absolute bottom-4 right-4 z-10 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20">
                                                         <IconComponent className="w-6 h-6 text-white" />
-                                                     </div>
+                                                    </div>
                                                 </div>
-                                                
+
                                                 <div className="p-8 flex flex-col grow">
                                                     <h3 className="text-xl font-bold text-bee-black mb-4 group-hover:text-bee-gold transition-colors">
                                                         {item.title}
@@ -709,9 +721,8 @@ export default function HomePage() {
                                 <button
                                     key={index}
                                     onClick={() => scrollToDiferenciais(index)}
-                                    className={`w-2 h-2 rounded-full transition-all ${
-                                        index === currentDiferenciaisIndex ? 'bg-bee-gold w-8' : 'bg-mid-gray'
-                                    }`}
+                                    className={`w-2 h-2 rounded-full transition-all ${index === currentDiferenciaisIndex ? 'bg-bee-gold w-8' : 'bg-mid-gray'
+                                        }`}
                                     aria-label={`Ir para diferencial ${index + 1}`}
                                 />
                             ))}
@@ -872,72 +883,6 @@ export default function HomePage() {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* CEO Video Section - Vision & Premium Dark */}
-            <section className="py-20 lg:py-32 bg-neutral-900 text-white relative overflow-hidden">
-                {/* Background Accents */}
-                <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-bee-gold/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
-                
-                <div className="container mx-auto px-6 lg:px-16 max-w-7xl relative z-10">
-                    
-                    {/* Mobile Title (Visible only on mobile) */}
-                    <div className="lg:hidden text-center mb-10">
-                        <h2 className="text-3xl font-bold leading-tight">
-                            Por que escolhemos <span className="text-bee-gold">Joinville</span> para começar essa jornada?
-                        </h2>
-                    </div>
-
-                    <div className="grid lg:grid-cols-2 gap-8 lg:gap-24 items-center">
-                        
-                        {/* Text Content (Desktop Title + All Text/Button) */}
-                        <div className="text-center lg:text-left order-2 lg:order-1">
-                            <div className="hidden lg:block">
-                                <h2 className="text-3xl md:text-4xl lg:text-5xl mb-6 font-bold leading-tight">
-                                    Por que escolhemos <span className="text-bee-gold">Joinville</span> para começar essa jornada?
-                                </h2>
-                            </div>
-                            
-                            <a
-                                href="#contato"
-                                className="bg-bee-gold hover:bg-bee-gold-dark text-bee-black font-bold py-4 px-8 rounded-lg w-full inline-flex justify-center items-center gap-2 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(249,180,16,0.2)] hover:shadow-[0_0_30px_rgba(249,180,16,0.4)] uppercase tracking-wide text-sm md:text-base"
-                            >
-                                Ver potencial
-                            </a>
-                        </div>
-
-                        {/* Video Thumbnail */}
-                        <div className="order-1 lg:order-2 group cursor-pointer">
-                            <div className="relative rounded-2xl overflow-hidden aspect-video border border-white/10 shadow-2xl transition-all duration-500 group-hover:border-bee-gold/50 group-hover:shadow-[0_0_30px_rgba(249,180,16,0.15)]">
-                                {/* Thumbnail Image (Darkened) */}
-                                <Image
-                                    src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1000"
-                                    className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500"
-                                    alt="André - BeeStay"
-                                    fill
-                                    sizes="(max-width: 1024px) 100vw, 50vw"
-                                />
-                                
-                                {/* Custom Play Button */}
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-20 h-20 bg-bee-gold rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 relative">
-                                        <div className="absolute inset-0 bg-bee-gold rounded-full animate-ping opacity-20"></div>
-                                        <svg className="w-8 h-8 text-bee-black ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M8 5v14l11-7z" />
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                {/* Minimal Tag */}
-                                <div className="absolute bottom-6 left-6 text-left">
-                                    <p className="text-white font-bold text-xl">André</p>
-                                    <p className="text-bee-gold text-sm font-medium tracking-wide">BeeStay</p>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </section>
