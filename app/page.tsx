@@ -17,6 +17,7 @@ export default function HomePage() {
     const [currentServiceIndex, setCurrentServiceIndex] = useState(0)
     const [currentDiferenciaisIndex, setCurrentDiferenciaisIndex] = useState(0)
     const [formLoaded, setFormLoaded] = useState(false)
+    const [isMobile, setIsMobile] = useState(false)
 
     // Embla Carousel for Logos
     const [emblaRef] = useEmblaCarousel({ loop: true, watchDrag: false }, [
@@ -42,12 +43,22 @@ export default function HomePage() {
         setOpenFaq(openFaq === index ? null : index)
     }
 
-    // Hero slideshow images
-    const heroImages = [
-        getImagePath('/hero-1.webp'), // Adicione suas imagens aqui
+    // Hero slideshow images - Desktop
+    const heroImagesDesktop = [
+        getImagePath('/hero-1.webp'),
         getImagePath('/hero-2.webp'),
         getImagePath('/hero-1.webp'),
     ]
+
+    // Hero slideshow images - Mobile
+    const heroImagesMobile = [
+        getImagePath('/mobile1.webp'),
+        getImagePath('/mobile2.webp'),
+        getImagePath('/mobile3.webp'),
+    ]
+
+    // Choose images based on screen size
+    const heroImages = isMobile ? heroImagesMobile : heroImagesDesktop
 
     // Services carousel data
     const services: Service[] = [
@@ -99,6 +110,21 @@ export default function HomePage() {
     ]
 
     const heroImageRefs = useRef<(HTMLDivElement | null)[]>([])
+
+    // Detect mobile screen size
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768)
+        }
+
+        // Check on mount
+        checkMobile()
+
+        // Add resize listener
+        window.addEventListener('resize', checkMobile)
+
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
 
     // Timeline steps data
     const timelineSteps: TimelineStep[] = [
@@ -284,6 +310,37 @@ export default function HomePage() {
             // Set a timeout to hide skeleton after form likely loaded
             const timeout = setTimeout(() => {
                 setFormLoaded(true)
+
+                // Add input listeners for placeholder control
+                const formCheckInterval = setInterval(() => {
+                    const inputs = container.querySelectorAll('input, textarea')
+                    if (inputs.length > 0) {
+                        clearInterval(formCheckInterval)
+
+                        inputs.forEach((input: Element) => {
+                            const inputElement = input as HTMLInputElement | HTMLTextAreaElement
+
+                            const checkValue = () => {
+                                if (inputElement.value && inputElement.value.trim() !== '') {
+                                    inputElement.classList.add('has-value')
+                                } else {
+                                    inputElement.classList.remove('has-value')
+                                }
+                            }
+
+                            // Check initial value
+                            checkValue()
+
+                            // Add listeners
+                            inputElement.addEventListener('input', checkValue)
+                            inputElement.addEventListener('change', checkValue)
+                            inputElement.addEventListener('blur', checkValue)
+                        })
+                    }
+                }, 100)
+
+                // Clear interval after 5 seconds if form doesn't load
+                setTimeout(() => clearInterval(formCheckInterval), 5000)
             }, 2000)
 
             return () => {
@@ -298,6 +355,60 @@ export default function HomePage() {
 
     return (
         <main>
+            <style jsx global>{`
+                /* Bitrix24 Form Custom Styles - Floating Label Effect */
+
+                /* Add spacing between form fields */
+                #bitrix-form-container .b24-form-field,
+                #bitrix-form-container .b24-form-control-container,
+                #bitrix-form-container > div > div {
+                    margin-bottom: 1.25rem !important;
+                }
+
+                #bitrix-form-container input,
+                #bitrix-form-container textarea,
+                #bitrix-form-container select {
+                    transition: all 0.2s ease;
+                    display: flex;
+                    align-items: center;
+                }
+
+                #bitrix-form-container input,
+                #bitrix-form-container select {
+                    line-height: normal;
+                }
+
+                #bitrix-form-container textarea {
+                    padding-top: 0.5rem;
+                    padding-bottom: 0.5rem;
+                }
+
+                #bitrix-form-container input::placeholder,
+                #bitrix-form-container textarea::placeholder {
+                    opacity: 1;
+                    transition: opacity 0.2s ease;
+                    text-align: left;
+                    vertical-align: middle;
+                }
+
+                /* Hide placeholder on focus */
+                #bitrix-form-container input:focus::placeholder,
+                #bitrix-form-container textarea:focus::placeholder {
+                    opacity: 0;
+                }
+
+                /* Hide placeholder when field has value */
+                #bitrix-form-container input:not(:placeholder-shown)::placeholder,
+                #bitrix-form-container textarea:not(:placeholder-shown)::placeholder {
+                    opacity: 0;
+                }
+
+                /* Hide placeholder when field has value (JS controlled) */
+                #bitrix-form-container input.has-value::placeholder,
+                #bitrix-form-container textarea.has-value::placeholder {
+                    opacity: 0;
+                }
+            `}</style>
             <Header />
 
             {/* Hero Section - Full Width com Slideshow */}
@@ -375,7 +486,7 @@ export default function HomePage() {
                             Seu imóvel em boas mãos
                         </h2>
                         <p className="text-base text-text-gray max-w-2xl mx-auto">
-                            Operação hoteleira completa para sua propriedade
+                            Gestão completa de curta temporada para sua propriedade
                         </p>
                     </div>
 
@@ -507,7 +618,7 @@ export default function HomePage() {
                         </div>
 
                         {/* Right - Content Side */}
-                        <div className="p-8 md:p-12 lg:p-20 flex flex-col justify-center relative z-10 w-full max-w-full overflow-hidden">
+                        <div className="p-8 pt-[0px] -mt-6 md:mt-0 md:p-12 lg:p-20 flex flex-col justify-center relative z-10 w-full max-w-full overflow-hidden">
                             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white">
                                 Seu imóvel rendendo <span className="text-bee-gold">muito mais</span>, enquanto cuidamos de tudo.
                             </h2>
@@ -909,6 +1020,11 @@ export default function HomePage() {
 
             {/* Final CTA Section - Sutil e Elegante */}
             <section id="contato" className="py-10 md:py-32 bg-bee-black text-white relative overflow-hidden">
+                {/* Background Texture & Glow Effects */}
+                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
+                <div className="absolute top-1/2 left-0 w-[400px] h-[400px] md:w-[500px] md:h-[500px] bg-bee-gold/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/2"></div>
+                <div className="absolute bottom-0 right-0 w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-bee-gold/15 rounded-full blur-[100px] translate-y-1/2 translate-x-1/2"></div>
+
                 <div className="container mx-auto px-6 md:px-8 lg:px-16 max-w-6xl relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
 
@@ -941,7 +1057,7 @@ export default function HomePage() {
                         </div>
 
                         {/* Right Form */}
-                        <div id="form" className="bg-white/5 border border-white/10 rounded-lg p-8 relative">
+                        <div id="form" className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 relative shadow-2xl shadow-bee-gold/10">
                             {/* Loading Skeleton */}
                             {!formLoaded && (
                                 <div className="space-y-4 animate-pulse">
@@ -984,15 +1100,15 @@ export default function HomePage() {
                     <div className="grid md:grid-cols-3 gap-12 mb-12">
 
                         {/* Logo & Tagline */}
-                        <div>
-                            <Image src={getImagePath("/logo_branco.svg")} alt="BeeStay" width={240} height={64} className="h-8 w-auto mb-4" />
+                        <div className="text-center md:text-left">
+                            <Image src={getImagePath("/logo_branco.svg")} alt="BeeStay" width={240} height={64} className="h-8 w-auto mb-4 mx-auto md:mx-0" />
                             <p className="text-gray-400 text-sm leading-relaxed">
                                 Gestão profissional de imóveis de temporada com excelência hoteleira.
                             </p>
                         </div>
 
                         {/* Links */}
-                        <div>
+                        <div className="text-center md:text-left">
                             <h4 className="text-white font-semibold mb-4 text-sm">Links</h4>
                             <ul className="space-y-2 text-sm">
                                 <li><a href="#home" className="text-gray-400 hover:text-bee-gold transition-colors">Início</a></li>
@@ -1003,7 +1119,7 @@ export default function HomePage() {
                         </div>
 
                         {/* Contato */}
-                        <div>
+                        <div className="text-center md:text-left">
                             <h4 className="text-white font-semibold mb-4 text-sm">Contato</h4>
                             <ul className="space-y-2 text-sm text-gray-400 mb-6">
                                 <li>(47) 99999-9999</li>
@@ -1011,7 +1127,7 @@ export default function HomePage() {
                             </ul>
 
                             {/* Social Icons */}
-                            <div className="flex gap-3">
+                            <div className="flex gap-3 justify-center md:justify-start">
                                 <a href="#" className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center hover:border-bee-gold hover:bg-bee-gold/10 transition-all group">
                                     <Icons.LinkedinLogo className="w-5 h-5 text-gray-400 group-hover:text-bee-gold transition-colors" />
                                 </a>
