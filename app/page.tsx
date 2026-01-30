@@ -80,21 +80,21 @@ export default function HomePage() {
             description: 'Dashboard em tempo real com todas as receitas, despesas e reservas. Zero letras miúdas.',
             icon: 'ChartLineUp',
             imageAlt: 'Dashboard em laptop',
-            imageSrc: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop'
-        },
-        {
-            title: 'Tecnologia de Ponta',
-            description: 'Automação completa do check-in ao checkout. Você relaxa enquanto a tecnologia trabalha.',
-            icon: 'Cpu',
-            imageAlt: 'Pessoa verificando imóvel',
-            imageSrc: 'https://images.unsplash.com/photo-1558002038-1091a1661116?q=80&w=800'
+            imageSrc: '/img3.webp'
         },
         {
             title: 'Relatórios Mensais',
             description: 'Relatórios para acompanhanto do investimento e etc.',
             icon: 'Handshake',
             imageAlt: 'Detalhe de limpeza premium',
-            imageSrc: 'https://images.unsplash.com/photo-1584622050111-993a426fbf0a?q=80&w=800'
+            imageSrc: '/img2.webp'
+        },
+        {
+            title: 'Tecnologia de Ponta',
+            description: 'Automação completa do check-in ao checkout. Você relaxa enquanto a tecnologia trabalha.',
+            icon: 'Cpu',
+            imageAlt: 'Pessoa verificando imóvel',
+            imageSrc: '/tecnologiadeponta.webp'
         }
     ]
 
@@ -367,7 +367,7 @@ export default function HomePage() {
             </section>
 
             {/* O Que Cuidamos - Seu imóvel em boas mãos */}
-            <section id="servicos" className="py-20 lg:py-32 bg-warm-linen relative overflow-hidden">
+            <section id="servicos" className="py-10 lg:py-32 bg-warm-linen relative overflow-hidden">
                 <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
                     {/* Section Header */}
                     <div className="text-center mb-12 lg:mb-16">
@@ -469,46 +469,19 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* Logo Bar - Sutil */}
-            <section className="py-10 bg-warm-linen border-y border-mid-gray">
-                <div className="container mx-auto px-8 lg:px-16">
-                    <div className="text-center mb-8">
-                        <h2 className="text-2xl md:text-4xl text-bee-black font-bold">
-                            Presença nas principais plataformas
-                        </h2>
-                    </div>
-                    <div className="overflow-hidden" ref={emblaRef}>
-                        <div className="flex touch-pan-y">
-                            {repeatedLogos.map((logo, index) => (
-                                <div
-                                    key={index}
-                                    className="flex-[0_0_auto] min-w-0 px-8 flex items-center justify-center opacity-30 hover:opacity-60 transition-opacity duration-1200"
-                                >
-                                    <Image
-                                        src={logo.src}
-                                        alt={logo.alt}
-                                        width={120}
-                                        height={40}
-                                        className="h-10 w-auto object-contain"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
+        
 
             {/* CTA Section - High Conversion Premium (Moved Up) */}
-            <section className="py-12 md:py-16 px-4 md:px-8 lg:px-16 bg-white">
+            <section className="py-12 md:py-16 px-4 md:px-8 lg:px-16 bg-white overflow-hidden">
                 <div className="bg-bee-black rounded-[2rem] md:rounded-[3rem] overflow-hidden relative isolate shadow-2xl max-w-7xl mx-auto">
                     {/* Background Texture & Glow */}
                     <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
                     <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-bee-gold/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
 
-                    <div className="grid lg:grid-cols-2 gap-0 lg:gap-12 items-stretch">
+                    <div className="grid lg:grid-cols-2 gap-0 lg:gap-12 items-stretch w-full max-w-full">
 
                         {/* Left - Video Side (Full Height Cover) */}
-                        <div className="relative h-[300px] lg:h-auto lg:min-h-[400px] w-full flex items-center justify-center p-4 md:p-6">
+                        <div className="relative h-[300px] lg:h-auto lg:min-h-[400px] w-full flex items-center justify-center p-4 md:p-6 lg:pl-12 lg:pr-6">
                             <div className="w-full max-w-full group cursor-pointer">
                                 <div className="relative rounded-2xl overflow-hidden aspect-video border border-white/10 shadow-2xl transition-all duration-500 group-hover:border-bee-gold/50 group-hover:shadow-[0_0_30px_rgba(249,180,16,0.15)]">
                                     {/* Thumbnail Image (Darkened) */}
@@ -534,15 +507,33 @@ export default function HomePage() {
                         </div>
 
                         {/* Right - Content Side */}
-                        <div className="p-8 md:p-12 lg:p-20 flex flex-col justify-center relative z-10">
+                        <div className="p-8 md:p-12 lg:p-20 flex flex-col justify-center relative z-10 w-full max-w-full overflow-hidden">
                             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white">
                                 Seu imóvel rendendo <span className="text-bee-gold">muito mais</span>, enquanto cuidamos de tudo.
                             </h2>
                             <p className="text-gray-300 text-lg mb-8 leading-relaxed">
-                                Transformamos sua propriedade em um ativo de alta performance. Cuidamos da divulgação, precificação, atendimento aos hóspedes, limpeza e manutenção.
+                                Anunciamos seu imóvel nas maiores plataformas do mercado e cuidamos de toda a gestão operacional para garantir performance máxima e tranquilidade total para você.
                             </p>
 
-                            <div className="mb-10">
+                            <div className="overflow-hidden w-full max-w-full" ref={emblaRef}>
+                                <div className="flex touch-pan-y">
+                                    {repeatedLogos.map((logo, index) => (
+                                        <div
+                                            key={index}
+                                            className="flex-[0_0_auto] min-w-0 px-4 md:px-8 flex items-center justify-center opacity-30 hover:opacity-60 transition-opacity duration-1200"
+                                        >
+                                            <Image
+                                                src={logo.src}
+                                                alt={logo.alt}
+                                                width={120}
+                                                height={40}
+                                                className="h-8 md:h-10 w-auto object-contain"
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="pt-10 mb-10">
                                 <a
                                     href="#contato"
                                     className="bg-bee-gold hover:bg-bee-gold-dark text-bee-black font-bold py-4 px-8 rounded-lg w-full inline-flex justify-center items-center gap-2 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(249,180,16,0.4)] hover:shadow-[0_0_30px_rgba(249,180,16,0.6)]"
@@ -557,7 +548,7 @@ export default function HomePage() {
             </section>
 
             {/* Processo - Como Funciona (Timeline) */}
-            <section id="processo" className="py-20 lg:py-32 bg-white relative overflow-hidden">
+            <section id="processo" className="py-10 lg:py-32 bg-white relative overflow-hidden">
                 <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
 
                     {/* Section Header */}
@@ -638,7 +629,7 @@ export default function HomePage() {
             </section>
 
             {/* Diferenciais Section - Gestão Que Você Pode Acompanhar (Moved Up) */}
-            <section id="diferenciais" className="py-20 lg:py-32 bg-warm-cream">
+            <section id="diferenciais" className="py-10 lg:py-32 bg-warm-cream">
                 <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
 
                     {/* Section Header */}
@@ -889,7 +880,7 @@ export default function HomePage() {
 
 
             {/* FAQ Section */}
-            <section id="faq" className="py-12 md:py-20 bg-warm-sand relative">
+            <section id="faq" className="py-10 md:py-20 bg-warm-sand relative">
                 <div className="container mx-auto px-4 md:px-8 lg:px-16 max-w-4xl">
                     <div className="text-center mb-8 md:mb-12">
                         <h2 className="text-3xl sm:text-4xl text-bee-black mb-3 font-bold">Perguntas Frequentes</h2>
@@ -917,7 +908,7 @@ export default function HomePage() {
             </section>
 
             {/* Final CTA Section - Sutil e Elegante */}
-            <section id="contato" className="py-20 md:py-32 bg-bee-black text-white relative overflow-hidden">
+            <section id="contato" className="py-10 md:py-32 bg-bee-black text-white relative overflow-hidden">
                 <div className="container mx-auto px-6 md:px-8 lg:px-16 max-w-6xl relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
 
