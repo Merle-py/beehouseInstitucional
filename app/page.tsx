@@ -1024,6 +1024,10 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
                 <div className="absolute top-1/2 left-0 w-[400px] h-[400px] md:w-[500px] md:h-[500px] bg-bee-gold/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/2"></div>
                 <div className="absolute bottom-0 right-0 w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-bee-gold/15 rounded-full blur-[100px] translate-y-1/2 translate-x-1/2"></div>
+                {/* Additional desktop glows behind form */}
+                <div className="hidden lg:block absolute top-1/4 right-1/4 w-[350px] h-[350px] bg-bee-gold/25 rounded-full blur-[140px]"></div>
+                <div className="hidden lg:block absolute bottom-1/3 right-1/3 w-[300px] h-[300px] bg-amber-400/20 rounded-full blur-[110px]"></div>
+                <div className="hidden lg:block absolute top-1/2 right-0 w-[450px] h-[450px] bg-bee-gold/15 rounded-full blur-[130px] translate-x-1/4"></div>
 
                 <div className="container mx-auto px-6 md:px-8 lg:px-16 max-w-6xl relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
@@ -1031,16 +1035,15 @@ export default function HomePage() {
                         {/* Left Content */}
                         <div className="text-center lg:text-left">
                             <h2 className="text-3xl sm:text-4xl md:text-5xl mb-6 leading-tight font-bold">
-                                Pronto para uma gestão<br />
-                                sem <span className="text-bee-gold">preocupações</span>?
+                                Pronto para uma gestão sem <span className="text-bee-gold">preocupações</span>?
                             </h2>
 
-                            <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
+                            <p className="text-lg md:text-xl text-gray-300 mb-6 leading-relaxed">
                                 Descubra o potencial do seu imóvel em uma análise gratuita.
                             </p>
 
                             {/* Trust badges */}
-                            <div className="flex flex-wrap gap-4 justify-center lg:justify-start text-sm text-gray-400 mb-8 lg:mb-0">
+                            <div className="flex flex-wrap gap-4 justify-center lg:justify-start text-sm text-gray-400 mb-0 lg:mb-0">
                                 <div className="flex items-center gap-2">
                                     <svg className="w-4 h-4 text-bee-gold" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -1144,7 +1147,7 @@ export default function HomePage() {
 
                     {/* Bottom Bar */}
                     <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-                        <p>© 2025 BeeStay. Todos os direitos reservados.</p>
+                        <p>© 2026 BeeStay. Todos os direitos reservados.</p>
                         <div className="flex gap-6">
                             <a href="#" className="hover:text-bee-gold transition-colors">Política de Privacidade</a>
                             <a href="#" className="hover:text-bee-gold transition-colors">Termos de Uso</a>
