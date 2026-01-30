@@ -25,7 +25,7 @@ export default function HomePage() {
     ])
 
     // Embla Carousel for Services
-    const [servicesRef, servicesApi] = useEmblaCarousel({ loop: true, align: 'start', slidesToScroll: 1 })
+    const [servicesRef, servicesApi] = useEmblaCarousel({ loop: true, align: 'center', slidesToScroll: 1 })
 
     // Embla Carousel for Diferenciais
     const [diferenciaisRef, diferenciaisApi] = useEmblaCarousel({ loop: true, align: 'center', slidesToScroll: 1 })
@@ -91,21 +91,21 @@ export default function HomePage() {
             description: 'Dashboard em tempo real com todas as receitas, despesas e reservas. Zero letras miúdas.',
             icon: 'ChartLineUp',
             imageAlt: 'Dashboard em laptop',
-            imageSrc: '/img3.webp'
+            imageSrc: getImagePath('/img3.webp')
         },
         {
             title: 'Relatórios Mensais',
             description: 'Relatórios para acompanhanto do investimento e etc.',
             icon: 'Handshake',
             imageAlt: 'Detalhe de limpeza premium',
-            imageSrc: '/img2.webp'
+            imageSrc: getImagePath('/img2.webp')
         },
         {
             title: 'Tecnologia de Ponta',
             description: 'Automação completa do check-in ao checkout. Você relaxa enquanto a tecnologia trabalha.',
             icon: 'Cpu',
             imageAlt: 'Pessoa verificando imóvel',
-            imageSrc: '/tecnologiadeponta.webp'
+            imageSrc: getImagePath('/tecnologiadeponta.webp')
         }
     ]
 
@@ -515,15 +515,15 @@ export default function HomePage() {
 
                         {/* Mobile/Tablet Carousel */}
                         <div className="lg:hidden overflow-hidden" ref={servicesRef}>
-                            <div className="flex touch-pan-y -ml-6">
+                            <div className="flex touch-pan-y">
                                 {services.map((service, index) => {
                                     const IconComponent = Icons[service.icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>
                                     return (
                                         <div
                                             key={index}
-                                            className="flex-[0_0_100%] md:flex-[0_0_50%] pl-6 min-w-0"
+                                            className="flex-[0_0_85%] md:flex-[0_0_50%] px-3 min-w-0"
                                         >
-                                            <div className="group h-full bg-white border border-mid-gray rounded-2xl p-10 hover:border-bee-gold transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 relative overflow-hidden">
+                                            <div className="group h-full bg-white border border-mid-gray rounded-2xl p-10 hover:border-bee-gold transition-all duration-300 hover:shadow-md hover:-translate-y-1 relative overflow-hidden">
                                                 <div className="absolute top-0 left-0 w-1 h-full bg-bee-gold transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top"></div>
                                                 <div className="mb-6">
                                                     <IconComponent className="w-10 h-10 text-bee-gold" />
@@ -547,7 +547,7 @@ export default function HomePage() {
                                 const IconComponent = Icons[service.icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>
                                 return (
                                     <div key={index}>
-                                        <div className="group h-full bg-white border border-mid-gray rounded-2xl p-8 hover:border-bee-gold transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 relative overflow-hidden">
+                                        <div className="group h-full bg-white border border-mid-gray rounded-2xl p-8 hover:border-bee-gold transition-all duration-300 hover:shadow-lg hover:-translate-y-1 relative overflow-hidden">
                                             <div className="absolute top-0 left-0 w-1 h-full bg-bee-gold transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top"></div>
                                             <div className="mb-6">
                                                 <IconComponent className="w-10 h-10 text-bee-gold" />
@@ -774,8 +774,8 @@ export default function HomePage() {
                         </button>
 
                         {/* Embla Viewport */}
-                        <div className="overflow-hidden" ref={diferenciaisRef}>
-                            <div className="flex touch-pan-y lg:cursor-default">
+                        <div className="overflow-hidden pb-4" ref={diferenciaisRef}>
+                            <div className="flex touch-pan-y lg:cursor-default mb-4">
                                 {diferenciaisData.map((item, index) => {
                                     const IconComponent = Icons[item.icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>
                                     return (
@@ -783,9 +783,9 @@ export default function HomePage() {
                                             key={index}
                                             className="flex-[0_0_85%] md:flex-[0_0_50%] lg:flex-[0_0_33.33%] px-3 md:px-4 min-w-0"
                                         >
-                                            <div className="h-full bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-bee-gold/30 transition-all duration-300 group flex flex-col">
+                                            <div className="h-full bg-white rounded-2xl border border-gray-100 hover:shadow-xl hover:border-bee-gold/30 transition-all duration-300 group flex flex-col">
                                                 {/* Visual Area with Image */}
-                                                <div className="h-48 relative overflow-hidden shrink-0">
+                                                <div className="h-48 relative overflow-hidden shrink-0 rounded-t-2xl">
                                                     <Image
                                                         src={item.imageSrc || getImagePath('/hero-1.webp')}
                                                         alt={item.imageAlt}
