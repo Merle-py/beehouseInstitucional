@@ -415,22 +415,39 @@ export default function HomePage() {
             <section id="home" className="min-h-screen pt-20 relative overflow-hidden">
                 {/* Background Slideshow */}
                 <div className="absolute inset-0">
-                    {heroImages.map((image, index) => (
+                    {heroImagesDesktop.map((image, index) => (
                         <div
-                            key={index}
+                            key={`desktop-${index}`}
                             ref={(el) => {
                                 if (el) heroImageRefs.current[index] = el
                             }}
-                            className={`hero-slide absolute inset-0 bg-cover bg-center ${index === currentSlide ? 'opacity-100' : 'opacity-0'
-                                }`}
-                            style={{
-                                backgroundImage: `url('${image}')`
-                            }}
+                            className={`hero-slide absolute inset-0 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
                         >
-                            {/* Dark overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
+                            <Image
+                                src={image}
+                                alt={`Hero Slide Desktop ${index + 1}`}
+                                fill
+                                priority={index === 0}
+                                className="object-cover hidden md:block"
+                            />
                         </div>
                     ))}
+                    {heroImagesMobile.map((image, index) => (
+                        <div
+                            key={`mobile-${index}`}
+                            className={`hero-slide absolute inset-0 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
+                        >
+                            <Image
+                                src={image}
+                                alt={`Hero Slide Mobile ${index + 1}`}
+                                fill
+                                priority={index === 0}
+                                className="object-cover md:hidden"
+                            />
+                        </div>
+                    ))}
+                    {/* Dark overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent z-10 pointer-events-none"></div>
                 </div>
 
                 {/* Content */}
@@ -586,7 +603,7 @@ export default function HomePage() {
             <section className="py-12 md:py-16 px-4 md:px-8 lg:px-16 bg-white overflow-hidden">
                 <div className="bg-bee-black rounded-[2rem] md:rounded-[3rem] overflow-hidden relative isolate shadow-2xl max-w-7xl mx-auto">
                     {/* Background Texture & Glow */}
-                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
+                    <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-10 mix-blend-overlay"></div>
                     <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-bee-gold/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
 
                     <div className="grid lg:grid-cols-2 gap-0 lg:gap-12 items-stretch w-full max-w-full">
@@ -839,161 +856,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* Features Section (manter temporariamente para não quebrar) */}
-            <section id="recursos" className="py-12 md:py-20 lg:py-24 bg-white hidden">
-                <div className="container mx-auto px-4 md:px-8 lg:px-16 max-w-7xl">
-                    <div className="text-center mb-8 md:mb-16">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-3 md:mb-4">
-                            Gestão Profissional com<br />Tecnologia de Ponta
-                        </h2>
-                        <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-3xl mx-auto">
-                            Operação 360º que cuida de cada detalhe do seu imóvel
-                        </p>
-                    </div>
 
-                    <div className="grid md:grid-cols-2 gap-4 md:gap-8 mb-8 md:mb-12">
-                        {/* Feature 1 */}
-                        <div className="bg-white rounded-xl md:rounded-2xl p-6 md:p-8 lg:p-10 shadow-sm hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-100">
-                            <div className="w-10 h-10 md:w-14 md:h-14 bg-linear-to-br from-blue-100 to-blue-50 rounded-lg md:rounded-xl flex items-center justify-center mb-4 md:mb-6">
-                                <Icons.Globe className="w-5 h-5 md:w-8 md:h-8 text-blue-600" />
-                            </div>
-                            <h3 className="text-lg md:text-xl lg:text-2xl font-bold mb-3 md:mb-4">Hub de Distribuição Global</h3>
-                            <p className="text-gray-600 mb-4 md:mb-6 leading-relaxed text-sm md:text-base">
-                                Um anúncio, múltiplas plataformas, um único calendário unificado. Seu imóvel alcança milhões de viajantes com sincronização automática entre Airbnb, Booking, Expedia e Decolar.
-                            </p>
-                            <ul className="space-y-2 md:space-y-3">
-                                <li className="flex items-center gap-2 md:gap-3 text-gray-700 text-sm md:text-base">
-                                    <Icons.Check className="w-4 h-4 md:w-5 md:h-5 text-bee-gold" />
-                                    <span>Atualização em tempo real</span>
-                                </li>
-                                <li className="flex items-center gap-2 md:gap-3 text-gray-700 text-sm md:text-base">
-                                    <Icons.Check className="w-4 h-4 md:w-5 md:h-5 text-bee-gold" />
-                                    <span>Zero overbooking</span>
-                                </li>
-                                <li className="flex items-center gap-2 md:gap-3 text-gray-700 text-sm md:text-base">
-                                    <Icons.Check className="w-4 h-4 md:w-5 md:h-5 text-bee-gold" />
-                                    <span>Performance otimizada</span>
-                                </li>
-                                <li className="flex items-center gap-2 md:gap-3 text-gray-500 text-xs md:text-sm italic mt-3">
-                                    <Icons.Package className="w-4 h-4 md:w-5 md:h-5 text-bee-gold" />
-                                    <span>BeeStay fornece: gestão de anúncios, fotos profissionais, copywriting otimizado</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        {/* Feature 2 */}
-                        <div className="bg-white rounded-xl md:rounded-2xl p-6 md:p-8 lg:p-10 shadow-sm hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-100">
-                            <div className="w-10 h-10 md:w-14 md:h-14 bg-linear-to-br from-orange-100 to-orange-50 rounded-lg md:rounded-xl flex items-center justify-center mb-4 md:mb-6">
-                                <Icons.ChartLineUp className="w-5 h-5 md:w-8 md:h-8 text-orange-600" />
-                            </div>
-                            <h3 className="text-lg md:text-xl lg:text-2xl font-bold mb-3 md:mb-4">Precificação Dinâmica</h3>
-                            <p className="text-gray-600 mb-4 md:mb-6 leading-relaxed text-sm md:text-base">
-                                Algoritmos inteligentes ajustam tarifas automaticamente para maximizar sua receita
-                            </p>
-                            <ul className="space-y-3">
-                                <li className="flex items-center gap-3 text-gray-700">
-                                    <Icons.Check className="w-5 h-5 text-bee-gold" />
-                                    <span>Paridade de preços</span>
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-700">
-                                    <Icons.Check className="w-5 h-5 text-bee-gold" />
-                                    <span>Análise de mercado 24/7</span>
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-700">
-                                    <Icons.Check className="w-5 h-5 text-bee-gold" />
-                                    <span>Aumento de até 51% na receita</span>
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-500 text-xs md:text-sm italic mt-3">
-                                    <Icons.Package className="w-4 h-4 md:w-5 md:h-5 text-bee-gold" />
-                                    <span>BeeStay fornece: algoritmo de precificação, análise de mercado, ajustes automáticos</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    {/* Single Feature with Chart */}
-                    <div className="bg-white rounded-xl md:rounded-2xl p-6 md:p-8 lg:p-10 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
-                        <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
-                            <div>
-                                <div className="w-10 h-10 md:w-14 md:h-14 bg-linear-to-br from-purple-100 to-purple-50 rounded-lg md:rounded-xl flex items-center justify-center mb-4 md:mb-6">
-                                    <Icons.Star className="w-5 h-5 md:w-8 md:h-8 text-purple-600" />
-                                </div>
-                                <h3 className="text-lg md:text-xl lg:text-2xl font-bold mb-3 md:mb-4">Experiência Premium</h3>
-                                <p className="text-gray-600 mb-4 md:mb-6 leading-relaxed text-sm md:text-base">
-                                    Excelência em cada detalhe, do staging ao check-out
-                                </p>
-                                <ul className="space-y-3">
-                                    <li className="flex items-center gap-3 text-gray-700">
-                                        <Icons.Check className="w-5 h-5 text-bee-gold" />
-                                        <span>Concierge digital 24/7</span>
-                                    </li>
-                                    <li className="flex items-center gap-3 text-gray-700">
-                                        <Icons.Check className="w-5 h-5 text-bee-gold" />
-                                        <span>Enxoval premium</span>
-                                    </li>
-                                    <li className="flex items-center gap-3 text-gray-700">
-                                        <Icons.Check className="w-5 h-5 text-bee-gold" />
-                                        <span>Alcance rating 5.0 e aumente ocupação em 35%</span>
-                                    </li>
-                                    <li className="flex items-center gap-3 text-gray-700">
-                                        <Icons.Check className="w-5 h-5 text-bee-gold" />
-                                        <span>Sincronização em todas as plataformas</span>
-                                    </li>
-                                    <li className="flex items-center gap-3 text-gray-500 text-xs md:text-sm italic mt-3">
-                                        <Icons.Package className="w-4 h-4 md:w-5 md:h-5 text-bee-gold" />
-                                        <span>BeeStay fornece: concierge 24/7, limpeza profissional, enxoval completo</span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            {/* Chart Visual */}
-                            <div className="bg-gray-50 rounded-2xl p-8">
-                                <div className="flex justify-between items-center mb-6">
-                                    <div>
-                                        <div className="text-sm text-gray-500 mb-1">Receita Mensal Média</div>
-                                        <div className="text-3xl font-black text-gray-900">R$ 10.271,25</div>
-                                    </div>
-                                    <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
-                                        <Icons.ArrowUp className="w-4 h-4" />
-                                        <span>+51%</span>
-                                    </div>
-                                </div>
-
-                                {/* Vertical Bar Chart */}
-                                <div className="flex items-end justify-between gap-3 h-48">
-                                    {/* Setembro */}
-                                    <div className="flex flex-col justify-end items-center gap-2 flex-1 h-full">
-                                        <span className="text-xs font-semibold text-gray-700">R$ 8.160</span>
-                                        <div className="w-full bg-linear-to-t from-gray-400 to-gray-500 rounded-t transition-all duration-1000" style={{ height: '43%' }}></div>
-                                        <span className="text-xs text-gray-600 mt-2">Set</span>
-                                    </div>
-
-                                    {/* Outubro */}
-                                    <div className="flex flex-col justify-end items-center gap-2 flex-1 h-full">
-                                        <span className="text-xs font-semibold text-gray-700">R$ 9.580</span>
-                                        <div className="w-full bg-linear-to-t from-gray-400 to-gray-500 rounded-t transition-all duration-1000" style={{ height: '52%' }}></div>
-                                        <span className="text-xs text-gray-600 mt-2">Out</span>
-                                    </div>
-
-                                    {/* Novembro */}
-                                    <div className="flex flex-col justify-end items-center gap-2 flex-1 h-full">
-                                        <span className="text-xs font-semibold text-gray-700">R$ 11.020</span>
-                                        <div className="w-full bg-linear-to-t from-gray-400 to-gray-500 rounded-t transition-all duration-1000" style={{ height: '63%' }}></div>
-                                        <span className="text-xs text-gray-600 mt-2">Nov</span>
-                                    </div>
-
-                                    {/* Dezembro (Destaque)*/}
-                                    <div className="flex flex-col justify-end items-center gap-2 flex-1 h-full">
-                                        <span className="text-xs font-bold text-bee-gold">R$ 12.325</span>
-                                        <div className="w-full bg-linear-to-t from-bee-gold to-amber-400 rounded-t shadow-lg transition-all duration-1000" style={{ height: '80%' }}></div>
-                                        <span className="text-xs text-gray-900 font-semibold mt-2">Dez</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
 
             {/* FAQ Section */}
@@ -1027,7 +890,7 @@ export default function HomePage() {
             {/* Final CTA Section - Sutil e Elegante */}
             <section id="contato" className="py-10 md:py-32 bg-bee-black text-white relative overflow-hidden">
                 {/* Background Texture & Glow Effects */}
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
+                <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-10 mix-blend-overlay"></div>
                 <div className="absolute top-1/2 left-0 w-[400px] h-[400px] md:w-[500px] md:h-[500px] bg-bee-gold/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/2"></div>
                 <div className="absolute bottom-0 right-0 w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-bee-gold/15 rounded-full blur-[100px] translate-y-1/2 translate-x-1/2"></div>
                 {/* Additional desktop glows behind form */}
@@ -1163,13 +1026,7 @@ export default function HomePage() {
                 </div>
             </footer>
 
-            {/* WhatsApp Floating Button
-            <a href="https://wa.me/5547999999999?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20BeeStay"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="fixed bottom-6 right-6 z-50 w-14 h-14 md:w-16 md:h-16 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 group md:bottom-6 bottom-24">
-                <Icons.WhatsappLogo className="w-6 h-6 md:w-8 md:h-8 text-white" />
-            </a>*/}
+
 
         </main>
     )
