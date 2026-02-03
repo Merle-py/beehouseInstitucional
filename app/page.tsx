@@ -389,7 +389,12 @@ export default function HomePage() {
                                     alt={heroAlts[index] || 'BeeStay gestão de imóveis'}
                                     fill
                                     priority={index === 0}
+                                    loading={index === 0 ? 'eager' : 'lazy'}
+                                    quality={85}
+                                    placeholder="blur"
+                                    blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQ3NSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4="
                                     className="object-cover hidden md:block"
+                                    sizes="100vw"
                                 />
                             </div>
                         )
@@ -410,7 +415,12 @@ export default function HomePage() {
                                     alt={heroAlts[index] || 'BeeStay gestão de imóveis'}
                                     fill
                                     priority={index === 0}
+                                    loading={index === 0 ? 'eager' : 'lazy'}
+                                    quality={85}
+                                    placeholder="blur"
+                                    blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQ3NSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4="
                                     className="object-cover md:hidden"
+                                    sizes="100vw"
                                 />
                             </div>
                         )
@@ -438,21 +448,22 @@ export default function HomePage() {
                             <a
                                 href="#contato"
                                 className="bg-bee-gold hover:bg-bee-gold-dark text-white px-8 py-4 rounded font-semibold transition-all inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
+                                aria-label="Saiba mais sobre gestão de imóveis BeeStay"
                             >
                                 Saiba mais
                             </a>
                         </div>
 
                         {/* Trust indicators */}
-                        <div className="flex items-center gap-6 text-sm text-white/80">
-                            <div className="flex items-center gap-2">
-                                <svg className="w-4 h-4 text-bee-gold" fill="currentColor" viewBox="0 0 20 20">
+                        <div className="flex items-center gap-6 text-sm text-white/90" role="list">
+                            <div className="flex items-center gap-2" role="listitem">
+                                <svg className="w-4 h-4 text-bee-gold" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                 </svg>
                                 <span>Responsabilidade total</span>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <svg className="w-4 h-4 text-bee-gold" fill="currentColor" viewBox="0 0 20 20">
+                            <div className="flex items-center gap-2" role="listitem">
+                                <svg className="w-4 h-4 text-bee-gold" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                 </svg>
                                 <span>Zelo em cada detalhe</span>
