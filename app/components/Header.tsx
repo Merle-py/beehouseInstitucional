@@ -2,9 +2,6 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
-const basePath = '/teste'
-const getImagePath = (path: string) => `${basePath}${path}`
-
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [activeSection, setActiveSection] = useState('home')
@@ -43,12 +40,22 @@ export function Header() {
 
     return (
         <>
+            {/* Skip to main content - Accessibility */}
+            <a
+                href="#main-content"
+                className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:bg-bee-gold focus:text-white focus:px-4 focus:py-2 focus:rounded focus:font-semibold focus:shadow-lg"
+            >
+                Pular para conteúdo principal
+            </a>
+
             {/* Navigation - Sutil e Limpo */}
-            <nav className="fixed top-0 w-full z-50 bg-white/98 backdrop-blur-sm border-b border-gray-100">
+            <nav className="fixed top-0 w-full z-50 bg-white/98 backdrop-blur-sm border-b border-gray-100" role="navigation" aria-label="Menu principal">
                 <div className="container mx-auto px-6 lg:px-16">
                     <div className="flex justify-between items-center h-20">
                         {/* Logo */}
-                        <Image src={getImagePath("/logo_preto.svg")} alt="BeeStay" width={240} height={64} className="h-15 w-auto" priority />
+                        <a href="/" aria-label="BeeStay - Página inicial">
+                            <Image src="/logo_preto.svg" alt="BeeStay" width={240} height={64} className="h-15 w-auto" priority />
+                        </a>
 
                         {/* Desktop Navigation */}
                         <div className="hidden md:flex items-center gap-10">
@@ -82,7 +89,9 @@ export function Header() {
                         <button
                             className="md:hidden text-bee-black"
                             onClick={toggleMenu}
-                            aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
+                            aria-label={isMenuOpen ? "Fechar menu de navegação" : "Abrir menu de navegação"}
+                            aria-expanded={isMenuOpen}
+                            aria-controls="mobile-menu"
                         >
                             {isMenuOpen ? (
                                 // Close Icon (X)
@@ -101,7 +110,7 @@ export function Header() {
 
                 {/* Mobile Menu Overlay */}
                 {isMenuOpen && (
-                    <div className="md:hidden fixed inset-0 top-20 bg-white z-40 overflow-y-auto">
+                    <div id="mobile-menu" className="md:hidden fixed inset-0 top-20 bg-white z-40 overflow-y-auto" role="menu">
                         <div className="flex flex-col p-6 space-y-4">
                             <a
                                 href="#home"

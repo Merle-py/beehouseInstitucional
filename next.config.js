@@ -1,13 +1,11 @@
 /** @type {import('next').NextConfig} */
-const isProd = process.env.NODE_ENV === 'production';
-
 const nextConfig = {
     output: 'export',
     images: {
         unoptimized: true
     },
-    // Configure basePath for subdirectory deployment (only in production)
-    basePath: isProd ? '/teste' : '',
+    // basePath removed for SEO-friendly URLs in production
+    // If deploying to subdirectory, configure server redirect instead
     trailingSlash: true,
 }
 

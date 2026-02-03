@@ -1,0 +1,20 @@
+{
+  "name": "BeeStay - Gestão Profissional de Imóveis para Short Stay",
+  "short_name": "BeeStay",
+  "description": "Gestão completa de imóveis para aluguel de temporada",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#F9B410",
+  "icons": [
+    {
+      "src": "/icone.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "lang": "pt-BR",
+  "dir": "ltr"
+}
